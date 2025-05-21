@@ -2,20 +2,14 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useRef, useEffect } from "react";
 
-function Pagination({ path, pages }) {
-  const scrollRef = useRef();
+function Pagination({ path, pages, id }) {
   const [current, setCurrent] = useState(1);
 
-  useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollLeft = 0;
-    }
-  }, [path, pages]);
+
   return (
     <div>
       <nav aria-label="Page navigation example ">
         <ul
-        //   ref={scrollRef}
           className="pagination justify-content-center flex-nowrap overflow-auto"
           style={{ width: "600px" }}
         >
@@ -59,7 +53,9 @@ function Pagination({ path, pages }) {
             onClick={() => {
               setCurrent(current + 1);
             }}
-            className="page-item bg-warning"
+            className={
+              "page-item bg-warning" + (current === pages ? " disabled" : "")
+            }
           >
             <Link
               className="page-link text-warning"

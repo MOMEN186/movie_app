@@ -1,5 +1,5 @@
 import { useState } from "react";
-export function TvSShowCard(props) {
+export default function TvShowCard(props) {
   console.log(props);
   const { mcard } = props;
 

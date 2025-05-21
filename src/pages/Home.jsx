@@ -7,30 +7,27 @@ import { MovieCard } from "../components/MovieCard";
 import Spinners from "../components/Spinners";
 import Pagination from "../components/Pagination";
 import { API_KEY } from "../../api/config";
-import { TvSShowCard } from "../components/TvShowCard";
-
-export function Home({path}) {
+import TvShowCard from "../components/TvShowCard";
+export function Home({ path }) {
   const [movies, setMovie] = useState();
   const [isLoading, setLoading] = useState();
   const [totalPages, setTotalPages] = useState(1);
 
   const { id } = useParams();
-  useEffect(()=>{
-    console.log(path)
-  },[])
 
   useEffect(() => {
-    const URL = path.length === 0 ? `https://api.themoviedb.org/3/movie/now_playing?api_key=${API_KEY}&page=${
-          id || 1
-        }` : `https://api.themoviedb.org/3/tv/popular?api_key=${API_KEY}&page=${
-                  id || 1
-                }`
+    const URL =
+      path.length === 0
+        ? `https://api.themoviedb.org/3/movie/now_playing?api_key=${API_KEY}&page=${
+            id || 1
+          }`
+        : `https://api.themoviedb.org/3/tv/popular?api_key=${API_KEY}&page=${
+            id || 1
+          }`;
     setLoading(true);
-    console.log(URL)
+    console.log(URL);
     axios
-      .get(
-        URL
-      )
+      .get(URL)
       .then((res) => {
         setMovie(res.data.results);
         setTotalPages(res.data.total_pages);
@@ -53,16 +50,21 @@ export function Home({path}) {
         ) : (
           movies?.map((movie) => (
             <div className="col" key={movie?.id}>
-              { path.length === 0 ? <MovieCard mcard={movie}></MovieCard> : <TvSShowCard mcard={movie}></TvSShowCard> }
-              
+              {path.length === 0 ? (
+                <MovieCard mcard={movie}></MovieCard>
+              ) : (
+                <TvShowCard mcard={movie}></TvShowCard>
+              )}
             </div>
           ))
         )}
       </div>
 
       <hr />
-      <div style={{ height: "300px" ,display:"flex", justifyContent:"center"}}>
-        <Pagination path={path} pages={totalPages} />
+      <div
+        style={{ height: "300px", display: "flex", justifyContent: "center" }}
+      >
+        <Pagination path={path} pages={totalPages} id />
       </div>
     </div>
   );
