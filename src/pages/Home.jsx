@@ -2,96 +2,68 @@ import React from "react";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { Link } from "react-router";
-import { MovieCard } from "./MovieCard";
-// import { useParams } from "react-router";
+import { useParams } from "react-router";
+import { MovieCard } from "../components/MovieCard";
+import Spinners from "../components/Spinners";
+import Pagination from "../components/Pagination";
+import { API_KEY } from "../../api/config";
+import { TvSShowCard } from "../components/TvShowCard";
 
-export function Home() {
+export function Home({path}) {
   const [movies, setMovie] = useState();
+  const [isLoading, setLoading] = useState();
+  const [totalPages, setTotalPages] = useState(1);
 
-  // const params = useParams()
-  // console.log(params)
+  const { id } = useParams();
+  useEffect(()=>{
+    console.log(path)
+  },[])
 
-  // const [page, setPage] = useState();
-
-  
   useEffect(() => {
+    const URL = path.length === 0 ? `https://api.themoviedb.org/3/movie/now_playing?api_key=${API_KEY}&page=${
+          id || 1
+        }` : `https://api.themoviedb.org/3/tv/popular?api_key=${API_KEY}&page=${
+                  id || 1
+                }`
+    setLoading(true);
+    console.log(URL)
     axios
       .get(
-        `https://api.themoviedb.org/3/movie/now_playing?api_key=c518f6c498a7f61fd433ed2a85544c50&page=5&page=${1}`
+        URL
       )
-      .then((res) =>setMovie(res.data.results.slice(0,8))) 
-      // .then((res) => console.log(res.data.results))
-      .catch((res) => console.log(res));
-
-  }, []);
+      .then((res) => {
+        setMovie(res.data.results);
+        setTotalPages(res.data.total_pages);
+      })
+      .then(() => setLoading(false))
+      .catch((error) => console.log(res));
+  }, [id, path]);
 
   return (
     <div>
-      <div className="row row-cols-1 row-cols-md-3 g-4">
-        {movies?.map((movie) => (
-          <div className="col" key={movie?.id}>
-
-                        <MovieCard mcard={movie} ></MovieCard>
-            
-
-
-            {/* <div className="card  h-200">
-              <img
-                src={`https://www.themoviedb.org/t/p/w1280/${movie?.backdrop_path}`}
-                className="card-img-top img-fluid "
-                alt="..."
-              />
-              <div className="card-body">
-                <h4 className="card-title text-start ">
-                  {movie?.original_title}
-                </h4>
-                <p className="card-text">
-                  This is a longer card with supporting text below as a natural
-                  lead-in to additional content. This content is a little bit
-                  longer.
-                </p>
-              </div>
-            </div> */}
-
-
+      <br />
+      <div className="row row-cols-1 row-cols-md-4 g-4">
+        {isLoading ? (
+          <div
+            style={{ display: "flex", justifyContent: "center", width: "100%" }}
+          >
+            {" "}
+            <Spinners />{" "}
           </div>
-        ))}
+        ) : (
+          movies?.map((movie) => (
+            <div className="col" key={movie?.id}>
+              { path.length === 0 ? <MovieCard mcard={movie}></MovieCard> : <TvSShowCard mcard={movie}></TvSShowCard> }
+              
+            </div>
+          ))
+        )}
       </div>
 
       <hr />
-
-      <nav aria-label="Page navigation example">
-        <ul className="pagination justify-content-center">
-          <li className="page-item disabled">
-            <Link className="page-link">Previous</Link>
-          </li>
-          <li className="page-item">
-            <Link className="page-link" to="/moviepages/1">
-              1
-            </Link>
-          </li>
-          <li className="page-item">
-            <Link className="page-link" to="/moviepages/2">
-              2
-            </Link>
-          </li>
-          <li className="page-item">
-            <Link className="page-link" to="/moviepages/3">
-              3
-            </Link>
-          </li>
-          <li className="page-item">
-            <Link className="page-link" to="#">
-              Next
-            </Link>
-          </li>
-        </ul>
-      </nav>
-
-
-
+      <div style={{ height: "300px" ,display:"flex", justifyContent:"center"}}>
+        <Pagination path={path} pages={totalPages} />
+      </div>
     </div>
   );
 }
-
-export default Home;
