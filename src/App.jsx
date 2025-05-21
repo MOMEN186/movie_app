@@ -1,22 +1,23 @@
 import "./App.css";
-import Home from "./pages/Home";
 import MovieDetails from "./pages/MovieDetails";
-import TvShow from "./pages/TvShow";
 import FavList from "./pages/FavList";
-import { Routes, Route } from "react-router-dom";
-import { useEffect } from "react";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { Header } from "./components/Header";
+import { Home } from "./pages/Home";
 
 function App() {
-
-  useEffect(()=>{console.log("app.jsx")},[])
   return (
     <div>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/movie/:id" element={<MovieDetails />} />
-        <Route path="/tvshow/:id" element={<TvShow />} />
-        <Route path="/watchlist" element={<FavList />} />
-      </Routes>
+        <Header />
+        <div className="container my-5 d-flex">
+          <Routes>          
+            <Route path="/movie/:id" element={<MovieDetails />} />
+            <Route path="/tvshow/:id?" element={<Home path="/tvshow" />} />
+            <Route path="/watchlist" element={<FavList />} /> 
+            <Route path="/:id?" element={<Home path=""  />} />      
+          </Routes>
+        </div>
     </div>
   );
 }
