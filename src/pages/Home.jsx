@@ -1,7 +1,5 @@
-import React from "react";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { Link } from "react-router";
 import { useParams } from "react-router";
 import { MovieCard } from "../components/MovieCard";
 import Spinners from "../components/Spinners";
@@ -12,6 +10,9 @@ export function Home({ path }) {
   const [movies, setMovie] = useState();
   const [isLoading, setLoading] = useState();
   const [totalPages, setTotalPages] = useState(1);
+  
+
+
 
   const { id } = useParams();
 
@@ -33,7 +34,7 @@ export function Home({ path }) {
         setTotalPages(res.data.total_pages);
       })
       .then(() => setLoading(false))
-      .catch((error) => console.log(res));
+      .catch((error) => console.log(error));
   }, [id, path]);
 
   return (
@@ -41,9 +42,7 @@ export function Home({ path }) {
       <br />
       <div className="row row-cols-1 row-cols-md-4 g-4">
         {isLoading ? (
-          <div
-            style={{ display: "flex", justifyContent: "center", width: "100%" }}
-          >
+          <div style={{ display: "flex", justifyContent: "center", width: "100%" }}>
             {" "}
             <Spinners />{" "}
           </div>
@@ -62,8 +61,7 @@ export function Home({ path }) {
 
       <hr />
       <div
-        style={{ height: "300px", display: "flex", justifyContent: "center" }}
-      >
+        style={{ height: "300px", display: "flex", justifyContent: "center" }}>
         <Pagination path={path} pages={totalPages} id />
       </div>
     </div>
