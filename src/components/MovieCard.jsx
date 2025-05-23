@@ -1,7 +1,19 @@
-import { useState } from "react";
-export function MovieCard(props) {
-  const { mcard } = props;
-  const [isLike, setIsLike] = useState(true);
+import { useAppSelector, useAppDispatch } from "../hooks/useRedux";
+import { add, remove } from "../features/WatchList/WatchListSlice";
+export function MovieCard({ movie }) {
+
+  const watchList = useAppSelector((state) => state.watchList.value);
+  const dispatch = useAppDispatch();
+  const isLike = watchList.includes(movie.id);
+  // const language = useAppSelector((state) => state.language.value);
+
+  const handleLike = () => {
+    if (isLike) {
+     dispatch(remove(movie.id));
+    } else {
+       dispatch(add(movie.id));
+    }
+  };
 
   return (
     <div className="card w-150 mb-4   bg-secondary">
@@ -9,24 +21,24 @@ export function MovieCard(props) {
         <span className="badge text-bg-warning">movie</span>
       </h5>
       <img
-        src={`https://www.themoviedb.org/t/p/w1280/${mcard?.backdrop_path}`}
+        src={`https://www.themoviedb.org/t/p/w1280/${movie?.backdrop_path}`}
         className="card-img-top img-fluid "
         alt="..."
       />
       <div className="card-body text-light">
-        <h4 className="card-title text-start ">{mcard?.original_title}</h4>
+        <h4 className="card-title text-start ">{movie?.title}</h4>
         <br />
 
         <div className="row d-flex text-start">
-          <div className="col-8">{mcard?.release_date}</div>
+          <div className="col-8">{movie?.release_date}</div>
           <div className="col-4">
-            <button className="btn btn-secondary">
+            <button onClick={handleLike} className="btn btn-secondary">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
                 height="16"
                 fill="gold"
-                class="bi bi-heart"
+                className="bi bi-heart"
                 viewBox="0 0 16 16"
               >
                 {isLike === true ? (
