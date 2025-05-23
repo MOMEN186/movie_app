@@ -1,35 +1,40 @@
-import { useState } from "react";
-export default function TvShowCard(props) {
-  console.log(props);
-  const { mcard } = props;
+import { add, remove } from "../features/WatchList/WatchListSlice";
+import { useAppDispatch, useAppSelector } from "../hooks/useRedux";
+
+export default function TvShowCard({ movie }) {
+  const watchList = useAppSelector((state) => state.watchList.value);
+  const dispatch = useAppDispatch();
+  const isLike = watchList.includes(movie.id);
+
+  const handleLike = () => {
+    if (isLike) {
+      dispatch(remove(movie.id));
+    } else {
+      dispatch(add(movie.id));
+    }
+  };
 
   return (
     <div className="card w-150 mb-4 bg-secondary">
-        <div className="position-relative " >
-
-
-      <h5 className="text-start position-absolute top-0 start-0 m-2">
-        <span className="badge text-bg-warning">Tv-Show</span>
-      </h5>
-      <img
-        src={`https://www.themoviedb.org/t/p/w1280/${mcard?.backdrop_path}`}
-        className="card-img-top img-fluid "
-        alt="..."
-      />
-
-        </div>
-
-
-
+      <div className="position-relative ">
+        <h5 className="text-start position-absolute top-0 start-0 m-2">
+          <span className="badge text-bg-warning">Tv-Show</span>
+        </h5>
+        <img
+          src={`https://www.themoviedb.org/t/p/w1280/${movie?.backdrop_path}`}
+          className="card-img-top img-fluid "
+          alt="..."
+        />
+      </div>
 
       <div className="card-body text-light">
-        <h4 className="card-title text-start ">{mcard?.name}</h4>
+        <h4 className="card-title text-start ">{movie?.name}</h4>
         <br />
 
         <div className="row d-flex text-start">
-          <div className="col-8">{mcard?.first_air_date	}</div>
+          <div className="col-8">{movie?.first_air_date}</div>
           <div className="col-4">
-            <button className="btn btn-secondary">
+            <button onClick={handleLike} className="btn btn-secondary">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -63,4 +68,3 @@ export default function TvShowCard(props) {
     </div>
   );
 }
-

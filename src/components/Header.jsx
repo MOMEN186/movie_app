@@ -1,7 +1,18 @@
 import { Link } from "react-router";
 import NavBar from "./NavBar";
+import NavDropdown from "react-bootstrap/NavDropdown";
+import { useAppDispatch, useAppSelector } from "../hooks/useRedux";
+import { setLanguage } from "../features/language/LanguageSlice";
+const languages = ["Arabic", "English", "French", "Chinese"];
 
-export function Header() {
+export default function Header() {
+  const language = useAppSelector((state) => state.language.value);
+  const dispatch = useAppDispatch();
+
+  const handleChange = (newLang) => {
+    dispatch(setLanguage(newLang));
+  };
+
   return (
     <div style={{ display: "flex", flexDirection: "column", rowGap: "25px" }}>
       <div>
@@ -11,37 +22,18 @@ export function Header() {
               <span className="badge text-bg-light">Home</span>
             </Link>
           </li>
-
           <li className="nav-item">
             <Link className="nav-link active" to="/watchlist">
-              <span className="badge text-bg-light"> watch list </span>
+              <span className="badge text-bg-light"> watchList </span>
             </Link>
           </li>
-          <li className="nav-item">
-            <div className="dropdown">
-              <button
-                className="btn btn-secondary dropdown-toggle"
-                type="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                Language 
-              </button>
-              <ul className="dropdown-menu dropdown-menu-dark">
-                <li>
-                  <a className="dropdown-item active" href="#">
-                    Arabic
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    English 
-                  </a>
-                </li>
-               
-              </ul>
-            </div>
-          </li>
+          <NavDropdown title={language} id="nav-dropdown">
+            {languages.map((lang, index) => (
+              <NavDropdown.Item key={index} onClick={() => handleChange(lang)}>
+                {lang}
+              </NavDropdown.Item>
+            ))}
+          </NavDropdown>
         </ul>
       </div>
       <div>
