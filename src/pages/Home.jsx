@@ -1,78 +1,53 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router";
-import { useParams } from "react-router";
 import { MovieCard } from "../components/MovieCard";
 import Spinners from "../components/Spinners";
-import Pagination from "../components/Pagination";
-import axiosInstance, { API_KEY } from "../api/config";
 import TvShowCard from "../components/TvShowCard";
+import { getHomeResult } from "../api/home";
+import { MovieResult } from "../components/MovieResult";
+import Pagination from "../components/Pagination";
 
-
-export function Home({ path }) {
+export function Home({ category }) {
   const [movies, setMovie] = useState();
   const [isLoading, setLoading] = useState();
   const [totalPages, setTotalPages] = useState(1);
+  const [page, setPage] = useState(1);
 
 
-  const { id } = useParams();
+  
 
   useEffect(() => {
-    const URL =
-      path.length === 0
-        ? `/movie/now_playing?api_key=${API_KEY}&page=${
-            id || 1
-          }`
-        : `/tv/popular?api_key=${API_KEY}&page=${
-            id || 1
-          }`;
+    const URL = category === "movie" ? "/movie/now_playing" : "/tv/popular" ;
+          
     setLoading(true);
     console.log(URL);
-    axiosInstance
-      .get(URL)
+    getHomeResult(URL,page)
       .then((res) => {
         setMovie(res.data.results);
         setTotalPages(res.data.total_pages);
       })
       .then(() => setLoading(false))
       .catch((error) => console.log(error));
-  }, [id, path]);
+  }, [category,page]);
 
+
+  
   useEffect(() => {
     console.log(movies);
-  }, [movies]);
+  }, [movies,page]);
+
+
 
   return (
-    <div>
-      
-      <br />
-      <div className="row row-cols-1 row-cols-md-4 g-4">
-        {isLoading ? (
-          <div
-            style={{ display: "flex", justifyContent: "center", width: "100%" }}
-          >
-            {" "}
-            <Spinners />{" "}
-          </div>
-        ) : (
-          movies?.map((movie) => (
-            <div className="col" key={movie?.id}>
-              {path.length === 0 ? (
-                <MovieCard mcard={movie}></MovieCard>
-              ) : (
-                <TvShowCard mcard={movie}></TvShowCard>
-              )}
-            </div>
-          ))
-        )}
-      </div>
+     <div>
+        
 
-      <hr />
-      <div
-        style={{ height: "300px", display: "flex", justifyContent: "center" }}
-      >
-        <Pagination path={path} pages={totalPages} id />
+        <MovieResult shows={movies} isLoading={isLoading}  category={category}/>
+        <div style={{ height: "300px", display: "flex", justifyContent: "center" }}>
+         <Pagination current={page} setCurrent={setPage} pages={totalPages} />
+        </div> 
+
       </div>
-    </div>
   );
 }

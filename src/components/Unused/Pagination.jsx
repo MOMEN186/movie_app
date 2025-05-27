@@ -1,15 +1,11 @@
-import {useEffect} from "react";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { useRef, useEffect } from "react";
 
-function PaginationSearch(props) {
-  
-  const {current, setCurrent,pages} = props
+function Pagination({ path, pages, id }) {
+  const [current, setCurrent] = useState(1);
 
-  useEffect(() => {
-    console.log("Current Page:", current);
-    console.log("Total Pages:", pages);
-  }, [current, pages]);
-
-
+    
   return (
     <div>
       <nav aria-label="Page navigation example ">
@@ -24,42 +20,49 @@ function PaginationSearch(props) {
             onClick={() => {
               if (current > 1) {
                 setCurrent(current - 1);
-               
               }
             }}
             aria-disabled={current <= 1}
           >
-           <span className="page-link text-warning"> Prev</span>
-              
-        
+            <Link
+              className="page-link text-warning"
+              to={`${path}/${Math.max(current - 1, 1)}`}
+              tabIndex={current <= 1 ? -1 : 0}
+            >
+              Prev
+            </Link>
           </li>
 
           {Array.from({ length: 5 }, (_, i) => (
             <li
               onClick={() => {
                 setCurrent(current + i);
-               
               }}
               key={i + current }
               className="page-item bg-warning"
             >
-              
-               <span className="page-link text-warning"> {i + current}</span> 
-              
+              <Link
+                className="page-link text-warning"
+                to={`${path}/${i + current }`}
+              >
+                {i + current}
+              </Link>
             </li>
           ))}
           <li
             onClick={() => {
               setCurrent(current + 1);
-               
             }}
             className={
               "page-item bg-warning" + (current === pages ? " disabled" : "")
             }
           >
-            
-              <span className="page-link text-warning"> next</span>
-          
+            <Link
+              className="page-link text-warning"
+              to={`${path}/${current + 1}`}
+            >
+              next
+            </Link>
           </li>
         </ul>
       </nav>
@@ -67,4 +70,4 @@ function PaginationSearch(props) {
   );
 }
 
-export default PaginationSearch;
+export default Pagination;

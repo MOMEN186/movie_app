@@ -1,8 +1,8 @@
 import React from "react";
-import { MovieCard } from "../MovieCard";
-import Spinners from "../Spinners";
-import Pagination from "../Pagination";
-import TvShowCard from "../TvShowCard";
+import { MovieCard } from "./MovieCard";
+import Spinners from "./Spinners";
+import Pagination from "./Unused/Pagination";
+import TvShowCard from "./TvShowCard";
 import { useEffect } from "react";
 
 export const MovieResult = (props) => {
@@ -14,7 +14,7 @@ export const MovieResult = (props) => {
 
   return (
     <>
-      <br />
+     
       <div className="row row-cols-1 row-cols-md-4 g-4">
         {isLoading ? (
           <div

@@ -1,11 +1,15 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { useRef, useEffect } from "react";
+import {useEffect} from "react";
 
-function Pagination({ path, pages, id }) {
-  const [current, setCurrent] = useState(1);
+function Pagination(props) {
+  
+  const {current, setCurrent,pages} = props
 
-    
+  useEffect(() => {
+    console.log("Current Page:", current);
+    console.log("Total Pages:", pages);
+  }, [current, pages]);
+
+
   return (
     <div>
       <nav aria-label="Page navigation example ">
@@ -20,49 +24,42 @@ function Pagination({ path, pages, id }) {
             onClick={() => {
               if (current > 1) {
                 setCurrent(current - 1);
+               
               }
             }}
             aria-disabled={current <= 1}
           >
-            <Link
-              className="page-link text-warning"
-              to={`${path}/${Math.max(current - 1, 1)}`}
-              tabIndex={current <= 1 ? -1 : 0}
-            >
-              Prev
-            </Link>
+           <span className="page-link text-warning"> Prev</span>
+              
+        
           </li>
 
           {Array.from({ length: 5 }, (_, i) => (
             <li
               onClick={() => {
                 setCurrent(current + i);
+               
               }}
               key={i + current }
               className="page-item bg-warning"
             >
-              <Link
-                className="page-link text-warning"
-                to={`${path}/${i + current }`}
-              >
-                {i + current}
-              </Link>
+              
+               <span className="page-link text-warning"> {i + current}</span> 
+              
             </li>
           ))}
           <li
             onClick={() => {
               setCurrent(current + 1);
+               
             }}
             className={
               "page-item bg-warning" + (current === pages ? " disabled" : "")
             }
           >
-            <Link
-              className="page-link text-warning"
-              to={`${path}/${current + 1}`}
-            >
-              next
-            </Link>
+            
+              <span className="page-link text-warning"> next</span>
+          
           </li>
         </ul>
       </nav>
