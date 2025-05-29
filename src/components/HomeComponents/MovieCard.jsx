@@ -1,10 +1,11 @@
-import { useAppSelector, useAppDispatch } from "../hooks/useRedux";
-import { add, remove } from "../features/WatchList/WatchListSlice";
+import { useAppSelector, useAppDispatch } from "../../hooks/useRedux";
+import { add, remove } from "../../features/WatchList/WatchListSlice";
+import React, { useEffect } from "react";
 export function MovieCard({ movie }) {
 
   const watchList = useAppSelector((state) => state.watchList.value);
   const dispatch = useAppDispatch();
-  const isLike = watchList.includes(movie?.id);
+  const isLike = watchList.includes(movie.id);
   // const language = useAppSelector((state) => state.language.value);
 
   const handleLike = () => {
@@ -14,6 +15,12 @@ export function MovieCard({ movie }) {
        dispatch(add(movie.id));
     }
   };
+
+  useEffect(() => {
+    console.log("MovieCard movie:", movie);
+
+  })
+
 
   return (
     <div className="card w-150 mb-4   bg-secondary">

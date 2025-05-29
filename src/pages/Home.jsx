@@ -1,12 +1,10 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router";
-import { MovieCard } from "../components/MovieCard";
-import Spinners from "../components/Spinners";
-
-import { getHomeResult } from "../api/home";
-import { MovieResult } from "../components/MovieResult";
-import Pagination from "../components/Pagination";
+import { MovieCard } from "../components/HomeComponents/MovieCard";
+import Spinners from "../components/HomeComponents/Spinners";
+import { MovieResult } from "../components/HomeComponents/MovieResult";
+import Pagination from "../components/HomeComponents/Pagination";
 
 import { useAppSelector } from "../hooks/useRedux";
 import { getMovies } from "../api/Movies";
@@ -26,7 +24,7 @@ export default function Home({ category }) {
           
     setLoading(true);
     console.log(URL);
-    getHomeResult(URL,page)
+    getMovies(category,language,page)
       .then((res) => {
         console.log("res",res.data);
         setMovie(res.data.results);

@@ -1,8 +1,8 @@
 import { Link } from "react-router";
 import NavBar from "./NavBar";
 import NavDropdown from "react-bootstrap/NavDropdown";
-import { useAppDispatch, useAppSelector } from "../hooks/useRedux";
-import { setLanguage } from "../features/language/LanguageSlice";
+import { useAppDispatch, useAppSelector } from "../../hooks/useRedux";
+import { setLanguage } from "../../features/language/LanguageSlice";
 const languages = ["Arabic", "English", "French", "Chinese"];
 
 export default function Header() {

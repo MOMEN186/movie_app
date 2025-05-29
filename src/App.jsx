@@ -2,7 +2,7 @@ import "./App.css";
 import MovieDetails from "./pages/MovieDetails";
 import FavList from "./pages/FavList";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
-import  Header from "./components/Header";
+import  Header from "./components/HeaderComponents/Header";
 import Home from "./pages/Home";
 import { SearchBar } from "./components/SearchComponents/SearchBar";
 import { SearchResult } from "./components/SearchComponents/SearchResult";

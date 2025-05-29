@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
 import {getSearchResult} from '../../api/Search';
 import { useParams } from 'react-router-dom';
-import { MovieResult } from '../MovieResult';
-import { MovieCard } from '../MovieCard';
-import  Pagination  from '../Pagination';
+import { MovieResult } from '../HomeComponents/MovieResult';
+import { MovieCard } from '../HomeComponents/MovieCard';
+import  Pagination  from '../HomeComponents/Pagination';
 import { SearchBar } from './SearchBar';
 
 export const SearchResult = ({category}) => {

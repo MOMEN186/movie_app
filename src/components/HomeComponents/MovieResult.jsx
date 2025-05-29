@@ -1,7 +1,7 @@
 import React from "react";
 import { MovieCard } from "./MovieCard";
 import Spinners from "./Spinners";
-import Pagination from "./Unused/Pagination";
+
 import TvShowCard from "./TvShowCard";
 import { useEffect } from "react";
 
@@ -27,9 +27,9 @@ export const MovieResult = (props) => {
           shows?.map((show) => (
             <div className="col" key={show?.id}>
               {category === "movie" ? (
-                <MovieCard mcard={show}></MovieCard>
+                <MovieCard movie={show}></MovieCard>
               ) : (
-                <TvShowCard mcard={show}></TvShowCard>
+                <TvShowCard movie={show}></TvShowCard>
               )}
             </div>
           ))

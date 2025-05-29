@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import {SearchBar} from "./SearchComponents/SearchBar";
+import {SearchBar} from "../SearchComponents/SearchBar";
 import { useState } from "react";
 
 export default function NavBar() {

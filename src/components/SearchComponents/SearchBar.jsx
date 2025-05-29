@@ -18,7 +18,7 @@ export const SearchBar = (props) => {
     <>
      
 
-      <div className="input-group mb-4 mt-3">
+      <div className="input-group mt-3 px-5">
         <input
           type="text"
           className="form-control rounded-3  border-warning"
@@ -28,7 +28,7 @@ export const SearchBar = (props) => {
           //onChange={(e) => setInput(e.target.value)}
         />
         <button className="btn btn-warning mx-3 rounded-3" onClick={handleSearch}>
-           <i class="fas fa-search"></i>
+           <i className="fas fa-search"></i>
         </button>
       </div>
     </>
