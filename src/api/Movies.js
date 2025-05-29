@@ -1,5 +1,5 @@
 import axios from "axios";
-import { API_KEY } from "../../api/config";
+import { API_KEY } from "./config";
 
 const languageMap = {
   "Arabic": "ar-SA",
@@ -8,7 +8,7 @@ const languageMap = {
   "Chinese": "zh-CN"
 };
 
-export async function getMovies(path, { language, page }) {
+export async function getMovies(category,language, page ) {
   
   const tmdbLanguage = languageMap[language] || "en-US";
   
@@ -24,7 +24,7 @@ export async function getMovies(path, { language, page }) {
   };
 
   const endpoint =
-    path.length === 0
+    category === "movie"
       ? "https://api.themoviedb.org/3/movie/now_playing"
       : "https://api.themoviedb.org/3/tv/popular";
 

@@ -1,61 +1,58 @@
+import React from "react";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router";
+import { Link } from "react-router";
 import { MovieCard } from "../components/MovieCard";
 import Spinners from "../components/Spinners";
+
+import { getHomeResult } from "../api/home";
+import { MovieResult } from "../components/MovieResult";
 import Pagination from "../components/Pagination";
-import TvShowCard from "../components/TvShowCard";
+
 import { useAppSelector } from "../hooks/useRedux";
 import { getMovies } from "../api/Movies";
 
-export default function Home({ path }) {
+export default function Home({ category }) {
   const [movies, setMovie] = useState();
   const [isLoading, setLoading] = useState();
   const [totalPages, setTotalPages] = useState(1);
-  const { id } = useParams();
+  const [page, setPage] = useState(1);
 
+
+  
   const language = useAppSelector((state) => state.language.value);
 
   useEffect(() => {
-    const fetchMovies = async () => {
-      console.log(language)
-      setLoading(true);
-      const res = await getMovies(path,{page:id||1,language});
-      setLoading(false);
-      setMovie(res.data.results||[]);
-      setTotalPages(res.data.total_pages);
-    };
-    fetchMovies();
-  }, [id, path, language]);
+    const URL = category === "movie" ? "/movie/now_playing" : "/tv/popular" ;
+          
+    setLoading(true);
+    console.log(URL);
+    getHomeResult(URL,page)
+      .then((res) => {
+        console.log("res",res.data);
+        setMovie(res.data.results);
+        setTotalPages(res.data.total_pages);
+      })
+      .then(() => setLoading(false))
+      .catch((error) => console.log(error));
+  }, [category,page,language]);
+
+
+  
+  useEffect(() => {
+    console.log("movieeees",movies);
+  }, [movies,page]);
+
+
 
   return (
-    <div>
-      <br />
-      <div className="row row-cols-1 row-cols-md-4 g-4">
-        {isLoading ? (
-          <div
-            style={{ display: "flex", justifyContent: "center", width: "100%" }}
-          >
-            <Spinners />
-          </div>
-        ) : (
-          movies?.map((movie) => (
-            <div className="col" key={movie?.id}>
-              {path.length === 0 ? (
-                <MovieCard movie={movie}></MovieCard>
-              ) : (
-                <TvShowCard movie={movie}></TvShowCard>
-              )}
-            </div>
-          ))
-        )}
-      </div>
+     <div>
+        
 
-      <hr />
-      <div
-        style={{ height: "300px", display: "flex", justifyContent: "center" }}
-      >
-        <Pagination path={path} pages={totalPages} id />
+        <MovieResult shows={movies} isLoading={isLoading}  category={category}/>
+        <div style={{ height: "300px", display: "flex", justifyContent: "center" }}>
+         <Pagination current={page} setCurrent={setPage} pages={totalPages} />
+        </div> 
+
       </div>
-    </div>
   );
 }

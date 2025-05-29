@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from "../hooks/useRedux";
 export default function TvShowCard({ movie }) {
   const watchList = useAppSelector((state) => state.watchList.value);
   const dispatch = useAppDispatch();
-  const isLike = watchList.includes(movie.id);
+  const isLike = watchList.includes(movie?.id);
 
   const handleLike = () => {
     if (isLike) {

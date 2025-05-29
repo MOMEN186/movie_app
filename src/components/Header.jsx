@@ -16,7 +16,7 @@ export default function Header() {
   return (
     <div style={{ display: "flex", flexDirection: "column", rowGap: "25px" }}>
       <div>
-        <ul className="nav justify-content-end bg-warning ">
+        <ul className="nav  bg-warning ">
           <li className="nav-item">
             <Link className="nav-link active" aria-current="page" to="/">
               <span className="badge text-bg-light">Home</span>

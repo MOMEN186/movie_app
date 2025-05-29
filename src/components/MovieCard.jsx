@@ -4,7 +4,7 @@ export function MovieCard({ movie }) {
 
   const watchList = useAppSelector((state) => state.watchList.value);
   const dispatch = useAppDispatch();
-  const isLike = watchList.includes(movie.id);
+  const isLike = watchList.includes(movie?.id);
   // const language = useAppSelector((state) => state.language.value);
 
   const handleLike = () => {
