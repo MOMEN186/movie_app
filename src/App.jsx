@@ -4,8 +4,7 @@ import FavList from "./pages/FavList";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import  Header from "./components/HeaderComponents/Header";
 import Home from "./pages/Home";
-import { SearchBar } from "./components/SearchComponents/SearchBar";
-import { SearchResult } from "./components/SearchComponents/SearchResult";
+import SearchResultWrapper from "./components/SearchComponents/SearchResultWrapper";
 import { Provider } from 'react-redux';
 import { store } from './app/store';
 import NotFound from "./pages/NotFound";
@@ -22,8 +21,7 @@ function App() {
             <Route path="/tvshow" element={<Home category="tv" />} />
             <Route path="/" element={<Home category="movie"  />} />   
             <Route path="/watchlist" element={<FavList />} /> 
-            <Route path="/search/movie/:query" element={<SearchResult category="movie"/>} /> 
-            <Route path="/search/tvshow/:query" element={<SearchResult category="tv" />} /> 
+            <Route path="/search/:category/:query" element={<SearchResultWrapper />} /> 
             <Route path="/movie/:id" element={<MovieDetails />} />
             <Route path="*" element={<NotFound />} />
           </Routes>

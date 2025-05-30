@@ -1,18 +1,20 @@
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import { useNavigate } from "react-router-dom";
-
+import  { useState } from "react";
 
 
 export const SearchBar = (props) => {
 
  const { category} = props;
+ const [input, setInput] = useState("");
+
   const navigate = useNavigate();
 
 
   function handleSearch() {
-    console.log("searching");
-  const searchValue = document.getElementById("search_movie").value
-  navigate(`/search/${category}/${searchValue}`)
+    console.log("searching",input);
+  
+  navigate(`/search/${category}/${input}`)
 }
   return (
     <>
@@ -24,8 +26,8 @@ export const SearchBar = (props) => {
           className="form-control rounded-3  border-warning"
           placeholder="Search"
           id="search_movie"
-          //value={input}
-          //onChange={(e) => setInput(e.target.value)}
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
         />
         <button className="btn btn-warning mx-3 rounded-3" onClick={handleSearch}>
            <i className="fas fa-search"></i>

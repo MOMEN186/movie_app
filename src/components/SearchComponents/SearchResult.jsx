@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import {getSearchResult} from '../../api/Search';
-import { useParams } from 'react-router-dom';
 import { MovieResult } from '../HomeComponents/MovieResult';
 import { MovieCard } from '../HomeComponents/MovieCard';
 import  Pagination  from '../HomeComponents/Pagination';
@@ -8,20 +7,20 @@ import { SearchBar } from './SearchBar';
 import { useAppSelector } from '../../hooks/useRedux';
 
 
-export const SearchResult = ({category}) => {
+export const SearchResult = ({category,query}) => {
 
     const [searchResult, setSearchResult] = useState([]);
      const [page, setPage] = useState(1);
      const [isLoading, setLoading] = useState();
      const [totalPages, setTotalPages] = useState(1);
-    const params = useParams();
+   
     const language = useAppSelector((state) => state.language.value);
     
 
     useEffect(() => {
-        console.log("query : " ,params.query);
+        console.log("query : " ,query);
         setLoading(true);
-        getSearchResult(params.query, page,category,language)
+        getSearchResult(query, page,category,language)
             .then((res) => {
                 setSearchResult(res.data.results);
                 setTotalPages(res.data.total_pages);
@@ -31,7 +30,7 @@ export const SearchResult = ({category}) => {
             .catch((error) => {
                 console.log(error);
             });
-    }, [params.query,page,category,language]);
+    }, [query,page,category,language]);
 
 
     useEffect(() => { 
@@ -44,7 +43,7 @@ export const SearchResult = ({category}) => {
          
     
     <div>
-         <h3 className="justify-content-start mb-4"> Search Results for : {params.query} </h3> 
+         <h3 className="justify-content-start mb-4"> Search Results for : {query} </h3> 
 
         <MovieResult shows={searchResult} isLoading={isLoading}  category={category}/>
         <div style={{ height: "300px", display: "flex", justifyContent: "center" }}>
