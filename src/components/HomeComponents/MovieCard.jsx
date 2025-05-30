@@ -23,27 +23,29 @@ export function MovieCard({ movie }) {
 
 
   return (
-    <div className="card w-150 mb-4   bg-secondary">
-      <h5 className="text-start">
-        <span className="badge text-bg-warning">movie</span>
-      </h5>
-      <img
-        src={`https://www.themoviedb.org/t/p/w1280/${movie?.backdrop_path}`}
-        className="card-img-top img-fluid "
-        alt="..."
-      />
-      <div className="card-body text-light">
-        <h4 className="card-title text-start ">{movie?.title}</h4>
-        <br />
+    
+    <div className="card h-100  ">
+      
+      <div className="position-relative ">
+        <h5 className="text-start position-absolute top-0 start-0 m-2">
+          <span className="badge text-bg-warning">movie</span>
+        </h5>
+        <img
+          src={`https://www.themoviedb.org/t/p/w1280/${movie?.backdrop_path}`}
+          className="card-img-top img-fluid "
+          alt="..."
+          style={{ height: "300px", objectFit: "cover" }}
+        />
+      </div>
 
-        <div className="row d-flex text-start">
-          <div className="col-8">{movie?.release_date}</div>
-          <div className="col-4">
-            <button onClick={handleLike} className="btn btn-secondary">
+      <div className="card-body text-dark">        
+        <div className="d-flex justify-content-between">
+          <h4 className="card-title text-start ">{movie?.title}</h4>
+          <button onClick={handleLike} className="btn ">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
+                width="25"
+                height="25"
                 fill="gold"
                 className="bi bi-heart"
                 viewBox="0 0 16 16"
@@ -55,9 +57,24 @@ export function MovieCard({ movie }) {
                 )}
               </svg>
             </button>
-          </div>
+        
         </div>
+        
       </div>
+
+    
+      <p className="card-text mx-3">
+        {movie.overview && movie.overview.length > 100
+          ? movie.overview.slice(0, 100) + "...."
+          : movie.overview}
+      </p>
+
+      <div className="mb-3 d-flex justify-content-center ">
+              <button className="btn btn-outline-dark  bg-warning text-dark mx-5 px-5 rounded-5">
+                View Details
+              </button>
+            </div>
+
     </div>
   );
 }

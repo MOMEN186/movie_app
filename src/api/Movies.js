@@ -17,6 +17,7 @@ export async function getMovies(category,language, page ) {
       api_key: API_KEY,
       page: page,
       language: tmdbLanguage,
+     
     },
     headers: {
       "Content-Type": "application/json",
