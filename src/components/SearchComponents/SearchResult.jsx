@@ -40,7 +40,7 @@ export const SearchResult = ({category}) => {
          
     
     <div>
-         <p className="justify-content-start"> Search Results for : {params.query} </p> 
+         <h3 className="justify-content-start mb-4"> Search Results for : {params.query} </h3> 
 
         <MovieResult shows={searchResult} isLoading={isLoading}  category={category}/>
         <div style={{ height: "300px", display: "flex", justifyContent: "center" }}>
