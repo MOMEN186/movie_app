@@ -1,4 +1,3 @@
-import React from "react";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { Link } from "react-router";
@@ -16,24 +15,43 @@ export function Home({ path }) {
   const { id } = useParams();
 
   useEffect(() => {
-    const URL =
-      path.length === 0
-        ? `https://api.themoviedb.org/3/movie/now_playing?api_key=${API_KEY}&page=${
-            id || 1
-          }`
-        : `https://api.themoviedb.org/3/tv/popular?api_key=${API_KEY}&page=${
-            id || 1
-          }`;
+    const fetchCartoonContent = (isTV = false) => {
+      const mediaType = isTV ? 'tv' : 'movie';
+      let url = `https://api.themoviedb.org/3/discover/${mediaType}?api_key=${API_KEY}&with_genres=16&page=${id || 1}`;
+  
+      // Add kid-friendly filters
+      if (isTV) {
+        // For TV shows (TV-Y, TV-G, TV-PG)
+        url += '&include_adult=false&certification.lte=TV-PG&certification_country=US';
+      } else {
+        // For movies (G, PG, PG-13)
+        url += '&include_adult=false&certification.lte=PG&certification_country=US';
+      }
+  
+      return axios.get(url);
+    };
+  
     setLoading(true);
-    console.log(URL);
-    axios
-      .get(URL)
-      .then((res) => {
-        setMovie(res.data.results);
-        setTotalPages(res.data.total_pages);
-      })
-      .then(() => setLoading(false))
-      .catch((error) => console.log(res));
+  
+    if (path.length === 0) {
+      // Fetch kid-friendly animated MOVIES
+      fetchCartoonContent(false)
+        .then(res => {
+          setMovie(res.data.results);
+          setTotalPages(res.data.total_pages);
+        })
+        .catch(error => console.error("Error fetching cartoons:", error))
+        .finally(() => setLoading(false));
+    } else {
+      // Fetch kid-friendly animated TV SHOWS
+      fetchCartoonContent(true)
+        .then(res => {
+          setMovie(res.data.results);
+          setTotalPages(res.data.total_pages);
+        })
+        .catch(error => console.error("Error fetching animated TV:", error))
+        .finally(() => setLoading(false));
+    }
   }, [id, path]);
 
   return (

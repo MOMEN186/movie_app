@@ -1,4 +1,5 @@
 import { useState } from "react";
+import {Link} from 'react-router'
 export function MovieCard(props) {
   const { mcard } = props;
   const [isLike, setIsLike] = useState(true);
@@ -8,11 +9,14 @@ export function MovieCard(props) {
       <h5 className="text-start">
         <span className="badge text-bg-warning">movie</span>
       </h5>
+      <Link to={`/movie/${mcard?.id}`}>
       <img
         src={`https://www.themoviedb.org/t/p/w1280/${mcard?.backdrop_path}`}
         className="card-img-top img-fluid "
         alt="..."
       />
+      </Link>
+      
       <div className="card-body text-light">
         <h4 className="card-title text-start ">{mcard?.original_title}</h4>
         <br />
@@ -20,13 +24,13 @@ export function MovieCard(props) {
         <div className="row d-flex text-start">
           <div className="col-8">{mcard?.release_date}</div>
           <div className="col-4">
-            <button className="btn btn-secondary">
+            <button className="btn btn-secondary" onClick={() => setIsLike(!isLike)}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
                 height="16"
                 fill="gold"
-                class="bi bi-heart"
+                className="bi bi-heart"
                 viewBox="0 0 16 16"
               >
                 {isLike === true ? (
