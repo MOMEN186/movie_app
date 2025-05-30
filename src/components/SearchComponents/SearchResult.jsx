@@ -5,6 +5,8 @@ import { MovieResult } from '../HomeComponents/MovieResult';
 import { MovieCard } from '../HomeComponents/MovieCard';
 import  Pagination  from '../HomeComponents/Pagination';
 import { SearchBar } from './SearchBar';
+import { useAppSelector } from '../../hooks/useRedux';
+
 
 export const SearchResult = ({category}) => {
 
@@ -13,11 +15,13 @@ export const SearchResult = ({category}) => {
      const [isLoading, setLoading] = useState();
      const [totalPages, setTotalPages] = useState(1);
     const params = useParams();
+    const language = useAppSelector((state) => state.language.value);
+    
 
     useEffect(() => {
         console.log("query : " ,params.query);
         setLoading(true);
-        getSearchResult(params.query, page,category)
+        getSearchResult(params.query, page,category,language)
             .then((res) => {
                 setSearchResult(res.data.results);
                 setTotalPages(res.data.total_pages);
@@ -27,7 +31,7 @@ export const SearchResult = ({category}) => {
             .catch((error) => {
                 console.log(error);
             });
-    }, [params.query,page,category])
+    }, [params.query,page,category,language]);
 
 
     useEffect(() => { 

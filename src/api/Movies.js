@@ -1,12 +1,7 @@
 import axios from "axios";
-import { API_KEY } from "./config";
+import { API_CONFIG } from "./config";
+import { languageMap } from "./config";
 
-const languageMap = {
-  "Arabic": "ar-SA",
-  "English": "en-US", 
-  "French": "fr-FR",
-  "Chinese": "zh-CN"
-};
 
 export async function getMovies(category,language, page ) {
   
@@ -14,10 +9,9 @@ export async function getMovies(category,language, page ) {
   
   const axiosConfig = {
     params: {
-      api_key: API_KEY,
+      ...API_CONFIG,
       page: page,
-      language: tmdbLanguage,
-     
+      language: tmdbLanguage,     
     },
     headers: {
       "Content-Type": "application/json",
@@ -26,7 +20,8 @@ export async function getMovies(category,language, page ) {
 
   const endpoint =
     category === "movie"
-      ? "https://api.themoviedb.org/3/movie/now_playing"
+      ? "https://api.themoviedb.org/3/discover/movie"
+
       : "https://api.themoviedb.org/3/tv/popular";
 
 
