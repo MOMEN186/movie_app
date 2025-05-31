@@ -1,5 +1,6 @@
-
+import "./App.css";
 import MovieDetails from "./pages/MovieDetails";
+import TvShowDetails from "./pages/TvShowDetails"
 import FavList from "./pages/FavList";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import  Header from "./components/HeaderComponents/Header";
@@ -14,7 +15,7 @@ function App() {
     <Provider store={store}>
     <div>
         <Header />
-        <div className="container my-5 d-flex">
+        <div className="container my-3  d-flex">
          
           <Routes>          
             

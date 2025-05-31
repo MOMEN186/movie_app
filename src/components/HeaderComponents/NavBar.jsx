@@ -7,7 +7,7 @@ export default function NavBar() {
   const [category, setCategory] = useState("movie");
 
   return (
-    <div>
+    <div className="mb-4">
       <nav className="nav nav-pills nav-justified">
         <Link
           className="nav-link border border-warning text-warning mx-4"

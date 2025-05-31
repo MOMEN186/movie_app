@@ -5,7 +5,7 @@ import { MovieCard } from "../components/HomeComponents/MovieCard";
 import Spinners from "../components/HomeComponents/Spinners";
 import { MovieResult } from "../components/HomeComponents/MovieResult";
 import Pagination from "../components/HomeComponents/Pagination";
-
+import NavBar from "../components/HeaderComponents/NavBar";
 import { useAppSelector } from "../hooks/useRedux";
 import { getMovies } from "../api/Movies";
 
@@ -45,7 +45,9 @@ export default function Home({ category }) {
   return (
      <div>
         
-
+        <div>
+        <NavBar />
+      </div>
         <MovieResult shows={movies} isLoading={isLoading}  category={category}/>
         <div style={{ height: "300px", display: "flex", justifyContent: "center" }}>
          <Pagination current={page} setCurrent={setPage} pages={totalPages} />

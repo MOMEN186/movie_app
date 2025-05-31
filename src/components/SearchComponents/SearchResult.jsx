@@ -5,7 +5,7 @@ import { MovieCard } from '../HomeComponents/MovieCard';
 import  Pagination  from '../HomeComponents/Pagination';
 import { SearchBar } from './SearchBar';
 import { useAppSelector } from '../../hooks/useRedux';
-
+import NavBar from '../HeaderComponents/NavBar';
 
 export const SearchResult = ({category,query}) => {
 
@@ -43,17 +43,17 @@ export const SearchResult = ({category,query}) => {
          
     
     <div>
-         <h3 className="justify-content-start mb-4"> Search Results for : {query} </h3> 
-
+        <div>
+            <NavBar />
+        </div>
+        <h3 className="justify-content-start mb-4"> Search Results for : {query} </h3> 
         <MovieResult shows={searchResult} isLoading={isLoading}  category={category}/>
         <div style={{ height: "300px", display: "flex", justifyContent: "center" }}>
-         <Pagination current={page} setCurrent={setPage} pages={totalPages} />
+          <Pagination current={page} setCurrent={setPage} pages={totalPages} />
         </div> 
 
-      </div>
-    
-    
-    
+    </div>
+      
    
   )
 }

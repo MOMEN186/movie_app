@@ -1,11 +1,12 @@
 import { useAppSelector, useAppDispatch } from "../../hooks/useRedux";
 import { add, remove } from "../../features/WatchList/WatchListSlice";
-import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 export function MovieCard({ movie }) {
 
   const watchList = useAppSelector((state) => state.watchList.value);
   const dispatch = useAppDispatch();
   const isLike = watchList.includes(movie.id);
+    const navigate = useNavigate();
   // const language = useAppSelector((state) => state.language.value);
 
   const handleLike = () => {
@@ -16,11 +17,12 @@ export function MovieCard({ movie }) {
     }
   };
 
-  useEffect(() => {
-    console.log("MovieCard movie:", movie);
+  const viewDetails = () => {
+    navigate(`/movie/${movie.id}`)
+}
 
-  })
-
+  
+ 
 
   return (
     
@@ -70,7 +72,7 @@ export function MovieCard({ movie }) {
       </p>
 
       <div className="mb-3 d-flex justify-content-center ">
-              <button className="btn btn-outline-dark  bg-warning text-dark mx-5 px-5 rounded-5">
+              <button className="btn btn-outline-dark  bg-warning text-dark mx-5 px-5 rounded-5" onClick={viewDetails}>
                 View Details
               </button>
             </div>
