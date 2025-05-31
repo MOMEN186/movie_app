@@ -2,7 +2,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  value: [],  // array of movie IDs
+  value: [],  // array of objects with id and mediaType
 };
 
 const watchListSlice = createSlice({
@@ -10,14 +10,15 @@ const watchListSlice = createSlice({
   initialState,
   reducers: {
     add(state, action) {
-      const id = action.payload;
-      if (!state.value.includes(id)) {
-        state.value.push(id);
+      const { id, mediaType } = action.payload;
+      const exists = state.value.some(item => item.id === id && item.mediaType === mediaType);
+      if (!exists) {
+        state.value.push({ id, mediaType });
       }
     },
     remove(state, action) {
-      const id = action.payload;
-      state.value = state.value.filter(itemId => itemId !== id);
+      const { id, mediaType } = action.payload;
+      state.value = state.value.filter(item => !(item.id === id && item.mediaType === mediaType));
     },
   },
 });

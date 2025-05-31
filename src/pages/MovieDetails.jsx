@@ -1,24 +1,27 @@
 import {useEffect, useState} from 'react'
-import {useParams, Link} from 'react-router'
+import {useParams} from 'react-router-dom'
 import {API_KEY} from '../api/config'
 import axios from 'axios'
 import StarRating from '../components/ShowDetailsComponents/StarRating'
 import MovieSlider from '../components/ShowDetailsComponents/MovieSlider'
 import MovieReview from '../components/ShowDetailsComponents/MovieReview'
+import { useAppDispatch, useAppSelector } from '../hooks/useRedux'
+import { add, remove } from '../features/WatchList/WatchListSlice'
 
 function MovieDetails() {
   const [movie, setMovie] = useState(null);
   const [recommendations, setRecommendations] = useState(null);
   const [reviews, setReviews] = useState(null);
-  const [isLike, setIsLike] = useState(true);
   
+  const dispatch = useAppDispatch();
+  const watchlist = useAppSelector((state) => state.watchList.value);
+  const isLike = movie ? watchlist.some(item => item.id === movie.id && item.mediaType === 'movie') : false;
 
   const params = useParams()
   const api = `https://api.themoviedb.org/3/movie/${params.id}?api_key=${API_KEY}`
   const recommendApi = `https://api.themoviedb.org/3/movie/${params.id}/recommendations?api_key=${API_KEY}`
   const reviewsApi = `https://api.themoviedb.org/3/movie/${params.id}/reviews?api_key=${API_KEY}`
 
-  
   useEffect(() => {
     axios.get(api)
     .then((res) => (setMovie(res.data)))
@@ -37,6 +40,15 @@ function MovieDetails() {
     .catch((err) => console.log(err))
   },[params.id])
 
+  const handleLike = () => {
+    if (!movie) return;
+    if (isLike) {
+      dispatch(remove({ id: movie.id, mediaType: 'movie' }));
+    } else {
+      dispatch(add({ id: movie.id, mediaType: 'movie' }));
+    }
+  };
+
   return (
     <div className="container py-4">
       <div className="row mb-5">
@@ -53,7 +65,7 @@ function MovieDetails() {
             <h2 className="mb-0">{movie?.original_title}</h2>
             <button 
               className="btn btn-secondary p-2"
-              onClick={() => setIsLike(!isLike)}
+              onClick={handleLike}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -63,7 +75,7 @@ function MovieDetails() {
                 className="bi bi-heart"
                 viewBox="0 0 16 16"
               >
-                {isLike === true ? (
+                {isLike ? (
                   <path d="M8 1.314C12.438-3.248 23.534 4.735 8 15C-7.534 4.736 3.562-3.248 8 1.314z" />
                 ) : (
                   <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
@@ -135,21 +147,23 @@ function MovieDetails() {
         </div>
       </div>
       <hr/>
-      {reviews?.results.length===0? <div className="mb-1 p-3">
-        <h4>There is no reviews yet..</h4> <hr/>
-      </div>: <div>
-      <div className="row mb-4" style={{marginLeft:"1em"}}>
-        <MovieReview reviews={reviews}/>
-      </div>
-      <hr/>
-      </div>}
+      {reviews?.results.length === 0 ? (
+        <div className="mb-1 p-3">
+          <h4>There are no reviews yet..</h4>
+          <hr/>
+        </div>
+      ) : (
+        <div>
+          <div className="row mb-4" style={{marginLeft:"1em"}}>
+            <MovieReview reviews={reviews}/>
+          </div>
+          <hr/>
+        </div>
+      )}
       
-      
-      <div className="row " style={{marginLeft:"1em"}}>
-
+      <div className="row" style={{marginLeft:"1em"}}>
         <MovieSlider recommendations={recommendations}/>
       </div>
-      
     </div>
   )
 }

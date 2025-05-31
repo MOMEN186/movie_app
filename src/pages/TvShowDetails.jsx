@@ -1,16 +1,21 @@
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router";
+import { useParams } from "react-router-dom";
 import { API_KEY } from "../api/config";
 import axios from "axios";
 import StarRating from "../components/ShowDetailsComponents/StarRating";
-import TvShowSlider from "../components/ShowDetailsComponents/TvShowSlider"
-import TvShowReview from '../components/ShowDetailsComponents/TvShowReview'
+import TvShowSlider from "../components/ShowDetailsComponents/TvShowSlider";
+import TvShowReview from '../components/ShowDetailsComponents/TvShowReview';
+import { useAppDispatch, useAppSelector } from '../hooks/useRedux';
+import { add, remove } from '../features/WatchList/WatchListSlice';
 
 function TvShowDetails() {
   const [tvShow, setTvShow] = useState(null);
   const [recommendations, setRecommendations] = useState(null);
   const [reviews, setReviews] = useState(null);
-  const [isLike, setIsLike] = useState(true);
+
+  const dispatch = useAppDispatch();
+  const watchlist = useAppSelector((state) => state.watchList.value);
+  const isLike = tvShow ? watchlist.some(item => item.id === tvShow.id && item.mediaType === 'tv') : false;
 
   const params = useParams();
   const api = `https://api.themoviedb.org/3/tv/${params.id}?api_key=${API_KEY}`;
@@ -34,7 +39,16 @@ function TvShowDetails() {
     axios.get(reviewsApi)
     .then((res) => setReviews(res.data))
     .catch((err) => console.log(err))
-  },[params.id])
+  },[params.id]);
+
+  const handleLike = () => {
+    if (!tvShow) return;
+    if (isLike) {
+      dispatch(remove({ id: tvShow.id, mediaType: 'tv' }));
+    } else {
+      dispatch(add({ id: tvShow.id, mediaType: 'tv' }));
+    }
+  };
 
   return (
     <div className="container py-4">
@@ -43,16 +57,16 @@ function TvShowDetails() {
           <img
             src={`https://www.themoviedb.org/t/p/w1280/${tvShow?.poster_path}`}
             className="img-fluid rounded shadow"
-            alt={tvShow?.original_title}
+            alt={tvShow?.name}
           />
         </div>
 
         <div className="col-md-8 mx-4">
           <div className="d-flex align-items-center justify-content-between mb-3">
-            <h2 className="mb-0">{tvShow?.original_title}</h2>
+            <h2 className="mb-0">{tvShow?.name}</h2>
             <button
               className="btn btn-secondary p-2"
-              onClick={() => setIsLike(!isLike)}
+              onClick={handleLike}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -62,7 +76,7 @@ function TvShowDetails() {
                 className="bi bi-heart"
                 viewBox="0 0 16 16"
               >
-                {isLike === true ? (
+                {isLike ? (
                   <path d="M8 1.314C12.438-3.248 23.534 4.735 8 15C-7.534 4.736 3.562-3.248 8 1.314z" />
                 ) : (
                   <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
@@ -71,7 +85,7 @@ function TvShowDetails() {
             </button>
           </div>
 
-          <p className="text-muted mb-3">{'first episode date:'+' '+tvShow?.first_air_date}</p>
+          <p className="text-muted mb-3">{'First episode date: ' + tvShow?.first_air_date}</p>
 
           <div className="mb-4">
             <StarRating
@@ -84,8 +98,8 @@ function TvShowDetails() {
             <p className="lead">{tvShow?.overview}</p>
           </div>
           <div className="mb-3">
-            <span><b>episodes number: </b>{tvShow?.number_of_episodes}</span>  
-            <span className="m-4"><b>seasons number: </b>{tvShow?.number_of_seasons}</span>
+            <span><b>Episodes number: </b>{tvShow?.number_of_episodes}</span>  
+            <span className="m-4"><b>Seasons number: </b>{tvShow?.number_of_seasons}</span>
           </div>
 
           <div className="mb-4">
@@ -141,20 +155,24 @@ function TvShowDetails() {
           </div>
         </div>
       </div>
-      <hr/>
-      {reviews?.results.length===0? <div className="mb-1 p-3">
-        <h4>There is no reviews yet..</h4> <hr/>
-      </div>: <div>
-      <div className="row mb-4" style={{marginLeft:"1em"}}>
-        <TvShowReview reviews={reviews}/>
-      </div>
-      <hr/>
-      </div>}
+
+      {reviews?.results.length === 0 ? (
+        <div className="mb-1 p-3">
+          <h4>There are no reviews yet..</h4>
+          <hr/>
+        </div>
+      ) : (
+        <div>
+          <div className="row mb-4" style={{marginLeft:"1em"}}>
+            <TvShowReview reviews={reviews}/>
+          </div>
+          <hr/>
+        </div>
+      )}
+      
       <div className="row" style={{marginLeft:"1em"}}>
         <TvShowSlider recommendations={recommendations}/>
       </div>
-    
-      
     </div>
   );
 }
