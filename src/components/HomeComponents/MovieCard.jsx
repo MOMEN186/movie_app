@@ -1,40 +1,37 @@
 import { useAppSelector, useAppDispatch } from "../../hooks/useRedux";
 import { add, remove } from "../../features/WatchList/WatchListSlice";
 import { useNavigate } from "react-router-dom";
-export function MovieCard({ movie }) {
 
+export function MovieCard({ movie, mediaType = 'movie' }) {
   const watchList = useAppSelector((state) => state.watchList.value);
   const dispatch = useAppDispatch();
-  const isLike = watchList.includes(movie.id);
-    const navigate = useNavigate();
+  const isLike = watchList.some(item => item.id === movie.id && item.mediaType === mediaType);
+  const navigate = useNavigate();
   // const language = useAppSelector((state) => state.language.value);
 
   const handleLike = () => {
     if (isLike) {
-     dispatch(remove(movie.id));
+      dispatch(remove({ id: movie.id, mediaType }));
     } else {
-       dispatch(add(movie.id));
+      dispatch(add({ id: movie.id, mediaType }));
     }
   };
 
   const viewDetails = () => {
-    navigate(`/movie/${movie.id}`)
-}
-
-  
- 
+    navigate(`/${mediaType}/${movie.id}`);
+  };
 
   return (
-    
-    <div className="card h-100  ">
-      
-      <div className="position-relative ">
+    <div className="card h-100">
+      <div className="position-relative">
         <h5 className="text-start position-absolute top-0 start-0 m-2">
-          <span className="badge text-bg-warning">movie</span>
+          <span className="badge text-bg-warning">
+            {mediaType === 'movie' ? 'Movie' : 'TV Show'}
+          </span>
         </h5>
         <img
           src={`https://www.themoviedb.org/t/p/w1280/${movie?.backdrop_path}`}
-          className="card-img-top img-fluid "
+          className="card-img-top img-fluid"
           alt="..."
           style={{ height: "300px", objectFit: "cover" }}
         />
@@ -42,41 +39,42 @@ export function MovieCard({ movie }) {
 
       <div className="card-body text-dark">        
         <div className="d-flex justify-content-between">
-          <h4 className="card-title text-start ">{movie?.title}</h4>
-          <button onClick={handleLike} className="btn ">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="25"
-                height="25"
-                fill="gold"
-                className="bi bi-heart"
-                viewBox="0 0 16 16"
-              >
-                {isLike === true ? (
-                  <path d="M8 1.314C12.438-3.248 23.534 4.735 8 15C-7.534 4.736 3.562-3.248 8 1.314z" />
-                ) : (
-                  <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
-                )}
-              </svg>
-            </button>
-        
+          <h4 className="card-title text-start">
+            {mediaType === 'movie' ? movie?.title : movie?.name}
+          </h4>
+          <button onClick={handleLike} className="btn">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="25"
+              height="25"
+              fill="gold"
+              className="bi bi-heart"
+              viewBox="0 0 16 16"
+            >
+              {isLike ? (
+                <path d="M8 1.314C12.438-3.248 23.534 4.735 8 15C-7.534 4.736 3.562-3.248 8 1.314z" />
+              ) : (
+                <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
+              )}
+            </svg>
+          </button>
         </div>
-        
       </div>
 
-    
       <p className="card-text mx-3">
         {movie.overview && movie.overview.length > 100
           ? movie.overview.slice(0, 100) + "...."
           : movie.overview}
       </p>
 
-      <div className="mb-3 d-flex justify-content-center ">
-              <button className="btn btn-outline-dark  bg-warning text-dark mx-5 px-5 rounded-5" onClick={viewDetails}>
-                View Details
-              </button>
-            </div>
-
+      <div className="mb-3 d-flex justify-content-center">
+        <button 
+          className="btn btn-outline-dark bg-warning text-dark mx-5 px-5 rounded-5" 
+          onClick={viewDetails}
+        >
+          View Details
+        </button>
+      </div>
     </div>
   );
 }
