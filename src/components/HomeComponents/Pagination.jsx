@@ -1,14 +1,6 @@
-import {useEffect} from "react";
-
 function Pagination(props) {
   
   const {current, setCurrent,pages} = props
-
-  useEffect(() => {
-    console.log("Current Page:", current);
-    console.log("Total Pages:", pages);
-  }, [current, pages]);
-
 
   return (
     <div>

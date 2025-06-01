@@ -27,7 +27,6 @@ export async function getMovies(category,language, page ) {
 
   try {
     const res = await axios.get(endpoint, axiosConfig);
-    console.log(res.data)
     return res;
   } catch (error) {
     console.error('API Error:', error);
