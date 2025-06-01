@@ -14,7 +14,7 @@ function FavList() {
     const fetchWatchlistItems = async () => {
       setLoading(true);
       try {
-        const results = await getLikedMovies(watchlist);
+        const results = await getLikedMovies(watchlist,language);
         console.log(results)
         setWatchlistItems(results.filter(item => item !== null));
           setLoading(false);
