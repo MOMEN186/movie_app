@@ -1,11 +1,10 @@
 import { useParams } from 'react-router';
-import { SearchBar } from './SearchBar';
+import { SearchResult } from './SearchResult';
 
 function SearchWrapper() {
-      const { category, query } = useParams();
-
+    const { category, query } = useParams();
   return (
-      <SearchBar category={category} query={query} />
+      <SearchResult category={category} query={query} />
   )
 }
 

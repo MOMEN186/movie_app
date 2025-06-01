@@ -1,9 +1,7 @@
 import { Link } from "react-router";
-import NavBar from "./NavBar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import { useAppDispatch, useAppSelector } from "../../hooks/useRedux";
 import { setLanguage } from "../../features/language/LanguageSlice";
-import { useEffect } from "react";
 const languages = ["Arabic", "English", "French", "Chinese"];
 
 
@@ -15,11 +13,6 @@ export default function Header() {
   const handleChange = (newLang) => {
     dispatch(setLanguage(newLang));
   };
-
-  useEffect(() => {
-    console.log("watch list size:", watchList.length);
-    console.log("Watchlist items:", watchList);
-  }, [watchList]);
 
   return (
     <div style={{ display: "flex", flexDirection: "column", rowGap: "25px" }}>

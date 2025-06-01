@@ -8,8 +8,6 @@ export function MovieCard({ movie, mediaType = 'movie' }) {
   const isLike = watchList.some(item => item.id === movie.id && item.mediaType === mediaType);
   const navigate = useNavigate();
 
-
-  console.log(movie)
   const handleLike = () => {
     if (isLike) {
     

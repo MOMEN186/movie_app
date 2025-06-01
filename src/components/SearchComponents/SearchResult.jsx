@@ -12,10 +12,13 @@ export const SearchResult = ({category,query}) => {
   const [totalPages, setTotalPages] = useState(1);
   const language = useAppSelector((state) => state.language.value);
 
+
+  console.log(category, query);
   useEffect(() => {
     setLoading(true);
     getSearchResult(query, page, category, language)
       .then((res) => {
+        console.log(res)
         setSearchResult(res.data.results);
         setTotalPages(res.data.total_pages);
       })
@@ -26,9 +29,11 @@ export const SearchResult = ({category,query}) => {
   }, [query, page, category, language]);
 
   useEffect(() => {
-    console.log(searchResult);
+    console.log({searchResult});
     console.log("total pages", totalPages);
   }, [searchResult, totalPages]);
+
+
   return (
     <div>
       <div>
