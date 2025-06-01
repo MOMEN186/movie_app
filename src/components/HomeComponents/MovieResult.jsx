@@ -15,7 +15,7 @@ export const MovieResult = (props) => {
         ) : (
           shows?.map((show) => (
             <div className="col" key={show?.id}>
-              {<MovieCard movie={show} mediaType={category} />}
+              {<MovieCard movie={show} mediaType={category==="tv"?"tvshow":category} />}
             </div>
           ))
         )}
