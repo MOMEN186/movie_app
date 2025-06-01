@@ -61,7 +61,9 @@ const ReviewCarousel = ({ reviews, title }) => {
         margin: '2em 0',
       }}
     >
-      <h4 className="mb-4">{title}</h4>
+      <h4 className="my-4 ">
+        {(!reviews?.results || reviews.results.length === 0) ? "No reviews yet" : title}
+      </h4>
 
       <CustomPrevArrow
         onClick={() =>

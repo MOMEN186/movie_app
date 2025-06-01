@@ -162,14 +162,14 @@ function MovieDetails() {
       ) : (
         <div>
           <div className="row mb-4" style={{ marginLeft: "1em" }}>
-            <ReviewCarousel reviews={reviews} />
+            <ReviewCarousel reviews={reviews} title={"Reviews"}/>
           </div>
           <hr />
         </div>
       )}
 
       <div className="row" style={{ marginLeft: "1em" }}>
-        <MediaSlider recommendations={recommendations} />
+        <MediaSlider recommendations={recommendations} mediaType={"movie"}  title={"Recommendations"}/>
       </div>
     </div>
   );

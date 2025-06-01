@@ -24,7 +24,7 @@ export function MovieCard({ movie, mediaType = 'movie' }) {
 
   return (
     <div className="card h-100">
-      <div className="position-relative">
+      <div className="position-relative" style={{ height: "300px" }}>
         <h5 className="text-start position-absolute top-0 start-0 m-2">
           <span className="badge text-bg-warning">
             {mediaType === 'movie' ? 'Movie' : 'TV Show'}
@@ -33,8 +33,13 @@ export function MovieCard({ movie, mediaType = 'movie' }) {
         <img
           src={`https://www.themoviedb.org/t/p/w1280/${movie?.backdrop_path}`}
           className="card-img-top img-fluid"
-          alt="..."
-          style={{ height: "300px", objectFit: "cover" }}
+          alt="Movie Poster"
+          style={{
+            height: "300px",
+            objectFit: "cover",
+            width: "100%",
+            background: "#eee"
+          }}
         />
       </div>
 
