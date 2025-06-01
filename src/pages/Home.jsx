@@ -1,8 +1,4 @@
-import React from "react";
 import { useState, useEffect } from "react";
-import { Link } from "react-router";
-import { MovieCard } from "../components/HomeComponents/MovieCard";
-import Spinners from "../components/HomeComponents/Spinners";
 import { MovieResult } from "../components/HomeComponents/MovieResult";
 import Pagination from "../components/HomeComponents/Pagination";
 import NavBar from "../components/HeaderComponents/NavBar";
@@ -23,22 +19,15 @@ export default function Home({ category }) {
     const URL = category === "movie" ? "/movie/now_playing" : "/tv/popular" ;
           
     setLoading(true);
-    console.log(URL);
+  
     getMovies(category,language,page)
       .then((res) => {
-        console.log("res",res.data);
         setMovie(res.data.results);
         setTotalPages(res.data.total_pages);
       })
       .then(() => setLoading(false))
       .catch((error) => console.log(error));
   }, [category,page,language]);
-
-
-  
-  useEffect(() => {
-    console.log("movieeees",movies);
-  }, [movies,page]);
 
 
 
