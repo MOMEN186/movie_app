@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import StarRating from "../components/ShowDetailsComponents/StarRating";
 import { useAppDispatch, useAppSelector } from "../hooks/useRedux";
 import { add, remove } from "../features/WatchList/WatchListSlice";
-import { getMovieRecommendations, getMovieReviews,getMovieDetails } from "../api/Movies";
+import { getMovieDetails } from "../api/Movies";
 import MediaSlider from "../components/ShowDetailsComponents/MediaSlider";
 import ReviewCarousel from "../components/ShowDetailsComponents/ReviewCarousel";
 
@@ -14,32 +14,35 @@ function MovieDetails() {
 
   const dispatch = useAppDispatch();
   const watchlist = useAppSelector((state) => state.watchList.value);
+  const language = useAppSelector((state) => state.language.value);
+  const category = "movie";
+
   const isLike = movie
     ? watchlist.some(
         (item) => item.id === movie.id && item.mediaType === "movie"
       )
     : false;
 
-  const params = useParams();
+  const {id} = useParams();
 
   useEffect(() => {
     async function fetchmoviesDetails() {
-      const movies = await getMovieDetails(params.id);
+      const movies = await getMovieDetails({id,query:"", language,category});
       setMovie(movies.data);
     }
     async function getRecommendations() {
-      const recommends = await getMovieRecommendations(params.id);
+      const recommends = await getMovieDetails({id,query:"recommendations", language,category});
       setRecommendations(recommends.data);
     }
     async function getReviews() {
-      const review = await getMovieReviews(params.id);
+      const review = await getMovieDetails({id,query:"reviews", language,category});
       setReviews(review.data);
     }
 
     fetchmoviesDetails();
     getRecommendations();
     getReviews();
-  }, [params]);
+  }, [id, language]);
 
 
   const handleLike = () => {
@@ -58,13 +61,13 @@ function MovieDetails() {
           <img
             src={`https://www.themoviedb.org/t/p/w1280/${movie?.poster_path}`}
             className="img-fluid rounded shadow"
-            alt={movie?.original_title}
+            alt={movie?.original_title || movie?.title}
           />
         </div>
 
         <div className="col-md-8 mx-4">
           <div className="d-flex align-items-center justify-content-between mb-3">
-            <h2 className="mb-0">{movie?.original_title}</h2>
+            <h2 className="mb-0">{movie?.title}</h2>
             <button className="btn btn-secondary p-2" onClick={handleLike}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
