@@ -1,7 +1,5 @@
 import { MovieCard } from "./MovieCard";
 import Spinners from "./Spinners";
-import TvShowCard from "./TvShowCard";
-
 export const MovieResult = (props) => {
   const { shows, isLoading, category } = props;
 
@@ -12,17 +10,12 @@ export const MovieResult = (props) => {
           <div
             style={{ display: "flex", justifyContent: "center", width: "100%" }}
           >
-           
             <Spinners />
           </div>
         ) : (
           shows?.map((show) => (
             <div className="col" key={show?.id}>
-              {category === "movie" ? (
-                <MovieCard movie={show}></MovieCard>
-              ) : (
-                <TvShowCard movie={show}></TvShowCard>
-              )}
+              {<MovieCard movie={show} mediaType={category} />}
             </div>
           ))
         )}
