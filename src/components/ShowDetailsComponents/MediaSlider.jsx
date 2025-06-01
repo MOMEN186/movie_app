@@ -12,9 +12,9 @@ const MediaSlider = ({ recommendations, mediaType, title }) => {
   // Group items into chunks of 6
   const chunkSize = 6;
   const itemGroups = [];
-  if (recommendations?.results) {
-    for (let i = 0; i < recommendations.results.length; i += chunkSize) {
-      itemGroups.push(recommendations.results.slice(i, i + chunkSize));
+  if (recommendations) {
+    for (let i = 0; i < recommendations.length; i += chunkSize) {
+      itemGroups.push(recommendations.slice(i, i + chunkSize));
     }
   }
 

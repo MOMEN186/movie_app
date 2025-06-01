@@ -9,13 +9,13 @@ import './Style/ReviweCarousel.css'; // <-- New, shared CSS
 const ReviewCarousel = ({ reviews, title }) => {
   const [index, setIndex] = useState(0);
   const [hovered, setHovered] = useState(false);
-
+  console.log(reviews)
   // Group reviews into chunks of 4
   const chunkSize = 4;
   const reviewGroups = [];
-  if (reviews?.results) {
-    for (let i = 0; i < reviews.results.length; i += chunkSize) {
-      reviewGroups.push(reviews.results.slice(i, i + chunkSize));
+  if (reviews) {
+    for (let i = 0; i < reviews.length; i += chunkSize) {
+      reviewGroups.push(reviews.slice(i, i + chunkSize));
     }
   }
 
@@ -62,7 +62,7 @@ const ReviewCarousel = ({ reviews, title }) => {
       }}
     >
       <h4 className="my-4 ">
-        {(!reviews?.results || reviews.results.length === 0) ? "No reviews yet" : title}
+        {(!reviews || reviews.length === 0) ? "No reviews yet" : title}
       </h4>
 
       <CustomPrevArrow
