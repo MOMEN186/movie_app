@@ -4,14 +4,12 @@ import { MovieResult } from "../HomeComponents/MovieResult";
 import Pagination from "../HomeComponents/Pagination";
 import { useAppSelector } from "../../hooks/useRedux";
 import NavBar from "../HeaderComponents/NavBar";
-import { useParams } from "react-router";
 
-export const SearchResult = () => {
+export const SearchResult = ({category,query}) => {
   const [searchResult, setSearchResult] = useState([]);
   const [page, setPage] = useState(1);
   const [isLoading, setLoading] = useState();
   const [totalPages, setTotalPages] = useState(1);
-  const { category, query } = useParams();
   const language = useAppSelector((state) => state.language.value);
 
   useEffect(() => {
@@ -33,7 +31,9 @@ export const SearchResult = () => {
   }, [searchResult, totalPages]);
   return (
     <div>
-     
+      <div>
+        <NavBar />
+      </div>
       <h3 className="justify-content-start mb-4">
        
         Search Results for : {query}

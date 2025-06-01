@@ -7,8 +7,8 @@ import Home from "./pages/Home";
 import { Provider } from 'react-redux';
 import { store } from './app/store';
 import NotFound from "./pages/NotFound";
-import { SearchResult } from "./components/SearchComponents/SearchResult";
 import ShowDetails from "./pages/ShowDetails";
+import SearchWrapper from "./components/SearchComponents/SearchWrapper";
 
 function App() {
   return (
@@ -20,7 +20,7 @@ function App() {
             <Route path="/tvshow" element={<Home category="tv" />} />
             <Route path="/" element={<Home category="movie" />} />   
             <Route path="/watchlist" element={<FavList />} /> 
-            <Route path="/search/:category/:query" element={<SearchResult />} /> 
+            <Route path="/search/:category/:query" element={<SearchWrapper />} /> 
            <Route path="/:category/:id" element={<ShowDetails />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
