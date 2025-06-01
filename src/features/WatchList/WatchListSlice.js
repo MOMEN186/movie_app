@@ -10,15 +10,16 @@ const watchListSlice = createSlice({
   initialState,
   reducers: {
     add(state, action) {
-      const { id, mediaType } = action.payload;
-      const exists = state.value.some(item => item.id === id && item.mediaType === mediaType);
+      const { movie, mediaType } = action.payload;
+      console.log(action.payload)
+      const exists = state.value.some(item => item.id === movie.id && item.mediaType === mediaType);
       if (!exists) {
-        state.value.push({ id, mediaType });
+        state.value.push({ movie, mediaType });
       }
     },
     remove(state, action) {
-      const { id, mediaType } = action.payload;
-      state.value = state.value.filter(item => !(item.id === id && item.mediaType === mediaType));
+      const { movie, mediaType } = action.payload;
+      state.value = state.value.filter(item => !(item.movie.id=== movie.id && item.mediaType === mediaType));
     },
   },
 });

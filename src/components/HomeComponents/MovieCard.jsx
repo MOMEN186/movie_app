@@ -1,19 +1,21 @@
 import { useAppSelector, useAppDispatch } from "../../hooks/useRedux";
 import { add, remove } from "../../features/WatchList/WatchListSlice";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 export function MovieCard({ movie, mediaType = 'movie' }) {
   const watchList = useAppSelector((state) => state.watchList.value);
   const dispatch = useAppDispatch();
-  const isLike = watchList.some(item => item.id === movie.id && item.mediaType === mediaType);
+  const isLike = watchList.some(item => item.movie.id === movie.id && item.mediaType === mediaType);
   const navigate = useNavigate();
-  // const language = useAppSelector((state) => state.language.value);
 
+
+  useEffect(() => { console.log(watchList) }, [watchList]);
   const handleLike = () => {
     if (isLike) {
-      dispatch(remove({ id: movie.id, mediaType }));
+      dispatch(remove({ movie: movie, mediaType }));
     } else {
-      dispatch(add({ id: movie.id, mediaType }));
+      dispatch(add({ movie: movie, mediaType }));
     }
   };
 
