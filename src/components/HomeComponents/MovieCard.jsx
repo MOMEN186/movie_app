@@ -9,6 +9,7 @@ export function MovieCard({ movie, mediaType = 'movie' }) {
   const navigate = useNavigate();
 
 
+  console.log(movie)
   const handleLike = () => {
     if (isLike) {
     
@@ -46,7 +47,7 @@ export function MovieCard({ movie, mediaType = 'movie' }) {
       <div className="card-body text-dark">        
         <div className="d-flex justify-content-between">
           <h4 className="card-title text-start">
-            {mediaType === 'movie' ? movie?.title : movie?.name}
+            {mediaType === 'movie' ? movie?.title || movie.original_language : movie?.name}
           </h4>
           <button onClick={handleLike} className="btn">
             <svg

@@ -15,6 +15,17 @@ function getDetailsEndPoint(category) {
     return  `https://api.themoviedb.org/3/tv/`;
     }
 }
+function getConfig(language) {
+      return  {
+      params: {
+        ...API_CONFIG,
+        language: language,
+      },
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+}
 
 export async function getMovies(category, language, page) {
   const tmdbLanguage = languageMap[language] || "en-US";
@@ -41,61 +52,33 @@ export async function getMovies(category, language, page) {
   }
 }
 
-export async function getMovieDetails(id) {
-  const api = `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}`;
+export async function getMovieDetails({id, category,query, language}) {
 
-  const result = await axios.get(api);
-  return result;
+    const tmdbLanguage = languageMap[language] || "en-US";
+  let endpoint = getDetailsEndPoint(category) + id;
+  if (query!==undefined && query?.length>0) endpoint += `/${query}`;
+
+  try {
+      const result = await axios.get(endpoint,getConfig(tmdbLanguage));
+    return result;
+  }
+  catch (e) {
+    console.log(e);
+  }
 }
 
-export async function getMovieRecommendations(id) {
-  const recommendApi = `https://api.themoviedb.org/3/movie/${id}/recommendations?api_key=${API_KEY}`;
 
-  const result = await axios.get(recommendApi);
-  return result;
-}
 
-export async function getMovieReviews(id) {
-  const reviewsApi = `https://api.themoviedb.org/3/movie/${id}/reviews?api_key=${API_KEY}`;
-  const result = await axios.get(reviewsApi);
-  return result;
-}
 
-export async function getTvShowDetails(id) {
-  const api = `https://api.themoviedb.org/3/tv/${id}?api_key=${API_KEY}`;
-  const result = await axios.get(api);
-  return result;
-}
-
-export async function getTvShowRecommendations(id) {
-  const recommendApi = `https://api.themoviedb.org/3/tv/${id}/recommendations?api_key=${API_KEY}`;
-  const result = await axios.get(recommendApi);
-  return result;
-}
-
-export async function getTvShowReviews(id) {
-  const reviewsApi = `https://api.themoviedb.org/3/tv/${id}/reviews?api_key=${API_KEY}`;
-  const result = await axios.get(reviewsApi);
-  return result;
-}
 
 export async function getLikedMovies(watchlist, language) {
   const tmdbLanguage = languageMap[language] || "en-US";
 
   const itemPromises = watchlist.map(async (item) => {
     const endpoint = getDetailsEndPoint(item.mediaType)+item.id;
-    const axiosConfig = {
-      params: {
-        ...API_CONFIG,
-        language: tmdbLanguage,
-        id: item.id,
-      },
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
+
     try {
-      const response = await axios.get(endpoint, axiosConfig);
+      const response = await axios.get(endpoint,getConfig(tmdbLanguage));
       return { ...response.data, mediaType: item.mediaType };
     } catch (error) {
       console.error(
