@@ -13,7 +13,9 @@ export const SearchBar = (props) => {
 
   function handleSearch() {
     console.log("searching",input);
-  
+  if (input.trim() === "") {
+      return; // Do not navigate if input is empty
+    }
   navigate(`/search/${category}/${input}`)
 }
   return (
