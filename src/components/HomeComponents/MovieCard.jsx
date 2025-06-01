@@ -5,15 +5,15 @@ import { useNavigate } from "react-router-dom";
 export function MovieCard({ movie, mediaType = 'movie' }) {
   const watchList = useAppSelector((state) => state.watchList.value);
   const dispatch = useAppDispatch();
-  const isLike = watchList.some(item => item.movie.id === movie.id && item.mediaType === mediaType);
+  const isLike = watchList.some(item => item.id === movie.id && item.mediaType === mediaType);
   const navigate = useNavigate();
 
 
   const handleLike = () => {
     if (isLike) {
-      dispatch(remove({ movie: movie, mediaType }));
+      dispatch(remove({ id: movie.id, mediaType }));
     } else {
-      dispatch(add({ movie: movie, mediaType }));
+      dispatch(add({ id: movie.id, mediaType }));
     }
   };
   
