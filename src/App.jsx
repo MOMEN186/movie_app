@@ -5,10 +5,10 @@ import FavList from "./pages/FavList";
 import { Routes, Route } from "react-router-dom";
 import Header from "./components/HeaderComponents/Header";
 import Home from "./pages/Home";
-import SearchResultWrapper from "./components/SearchComponents/SearchResultWrapper";
 import { Provider } from 'react-redux';
 import { store } from './app/store';
 import NotFound from "./pages/NotFound";
+import { SearchResult } from "./components/SearchComponents/SearchResult";
 
 function App() {
   return (
@@ -20,7 +20,7 @@ function App() {
             <Route path="/tvshow" element={<Home category="tv" />} />
             <Route path="/" element={<Home category="movie" />} />   
             <Route path="/watchlist" element={<FavList />} /> 
-            <Route path="/search/:category/:query" element={<SearchResultWrapper />} /> 
+            <Route path="/search/:category/:query" element={<SearchResult />} /> 
             <Route path="/movie/:id" element={<MovieDetails />} />
             <Route path="/tvshow/:id" element={<TvShowDetails />} />
             <Route path="*" element={<NotFound />} />

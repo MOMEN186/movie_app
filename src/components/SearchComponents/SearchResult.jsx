@@ -1,22 +1,20 @@
 import { useState, useEffect } from "react";
 import { getSearchResult } from "../../api/Search";
 import { MovieResult } from "../HomeComponents/MovieResult";
-import { MovieCard } from "../HomeComponents/MovieCard";
 import Pagination from "../HomeComponents/Pagination";
-import { SearchBar } from "./SearchBar";
 import { useAppSelector } from "../../hooks/useRedux";
 import NavBar from "../HeaderComponents/NavBar";
+import { useParams } from "react-router";
 
-export const SearchResult = ({ category, query }) => {
+export const SearchResult = () => {
   const [searchResult, setSearchResult] = useState([]);
   const [page, setPage] = useState(1);
   const [isLoading, setLoading] = useState();
   const [totalPages, setTotalPages] = useState(1);
-
+  const { category, query } = useParams();
   const language = useAppSelector((state) => state.language.value);
 
   useEffect(() => {
-    console.log("query : ", query);
     setLoading(true);
     getSearchResult(query, page, category, language)
       .then((res) => {
