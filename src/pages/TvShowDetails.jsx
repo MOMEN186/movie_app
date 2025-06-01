@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from '../hooks/useRedux';
 import { add, remove } from '../features/WatchList/WatchListSlice';
 import ReviewCarousel from "../components/ShowDetailsComponents/ReviewCarousel";
 import MediaSlider from "../components/ShowDetailsComponents/MediaSlider";
-import { getTvShowDetails, getTvShowRecommendations, getTvShowReviews } from "../api/Movies";
+import {  getMovieDetails } from "../api/Movies";
 
 function TvShowDetails() {
   const [tvShow, setTvShow] = useState(null);
@@ -14,29 +14,30 @@ function TvShowDetails() {
 
   const dispatch = useAppDispatch();
   const watchlist = useAppSelector((state) => state.watchList.value);
+   const language = useAppSelector((state) => state.language.value);
   const isLike = tvShow ? watchlist.some(item => item.id === tvShow.id && item.mediaType === 'tvshow') : false;
-
+  const category = "tv";
   const {id} = useParams();
  
   
 
   useEffect(() => {
     async function fetchDetails() {
-      const shows = await getTvShowDetails(id);
+      const shows = await getMovieDetails({ id,language:language,query:"",category});
       setTvShow(shows.data);
     }
     async function fetchRecommendations() {
-      const recommends = await getTvShowRecommendations(id);
+      const recommends = await getMovieDetails({ id,language:language,query:"recommendations",category});
       setRecommendations(recommends.data);
     } 
     async function fetchReviews() {
-      const review = await getTvShowReviews(id);
+      const review = await getMovieDetails({ id,language:language,query:"reviews",category});
       setReviews(review.data);
     }
     fetchDetails();
     fetchRecommendations();
     fetchReviews();
-  }, [id]);
+  }, [id,language]);
 
 
   const handleLike = () => {
