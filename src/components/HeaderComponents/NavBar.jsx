@@ -19,7 +19,7 @@ export default function NavBar() {
     <div className="mb-4">
       <nav className="nav nav-pills nav-justified">
         <Link
-          className={`nav-link border border-warning ${category === "movie" ? "active bg-warning" : "text-warning"}`}
+          className={`nav-link border border-warning mx-2 ${category === "movie" ? "active bg-warning" : "text-warning"}`}
           aria-current="page"
           onClick={() => setCategory("movie")}
           to="/"
