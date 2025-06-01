@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { API_KEY } from "../api/config";
-import axios from "axios";
 import StarRating from "../components/ShowDetailsComponents/StarRating";
 import { useAppDispatch, useAppSelector } from '../hooks/useRedux';
 import { add, remove } from '../features/WatchList/WatchListSlice';
 import ReviewCarousel from "../components/ShowDetailsComponents/ReviewCarousel";
 import MediaSlider from "../components/ShowDetailsComponents/MediaSlider";
+import { getTvShowDetails, getTvShowRecommendations, getTvShowReviews } from "../api/Movies";
 
 function TvShowDetails() {
   const [tvShow, setTvShow] = useState(null);
@@ -17,29 +16,28 @@ function TvShowDetails() {
   const watchlist = useAppSelector((state) => state.watchList.value);
   const isLike = tvShow ? watchlist.some(item => item.id === tvShow.id && item.mediaType === 'tv') : false;
 
-  const params = useParams();
-  const api = `https://api.themoviedb.org/3/tv/${params.id}?api_key=${API_KEY}`;
-  const recommendApi = `https://api.themoviedb.org/3/tv/${params.id}/recommendations?api_key=${API_KEY}`;
-  const reviewsApi = `https://api.themoviedb.org/3/tv/${params.id}/reviews?api_key=${API_KEY}`
-  useEffect(() => {
-    axios
-      .get(api)
-      .then((res) => setTvShow(res.data))
-      .catch((err) => console.log(err));
-  }, [params.id]);
+  const {id} = useParams();
+ 
+  
 
   useEffect(() => {
-    axios
-      .get(recommendApi)
-      .then((res) => setRecommendations(res.data))
-      .catch((err) => console.log(err));
-  }, [params.id]);
+    async function fetchDetails() {
+      const shows = await getTvShowDetails(id);
+      setTvShow(shows.data);
+    }
+    async function fetchRecommendations() {
+      const recommends = await getTvShowRecommendations(id);
+      setRecommendations(recommends.data);
+    } 
+    async function fetchReviews() {
+      const review = await getTvShowReviews(id);
+      setReviews(review.data);
+    }
+    fetchDetails();
+    fetchRecommendations();
+    fetchReviews();
+  }, [id]);
 
-  useEffect(() => {
-    axios.get(reviewsApi)
-    .then((res) => setReviews(res.data))
-    .catch((err) => console.log(err))
-  },[params.id]);
 
   const handleLike = () => {
     if (!tvShow) return;
