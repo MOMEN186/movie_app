@@ -28,6 +28,7 @@ export default function Home({ category }) {
   return (
     <div>
       <div>
+           <NavBar/>
       </div>
       <MovieResult shows={movies} isLoading={isLoading} category={category} />
       <div
