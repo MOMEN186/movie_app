@@ -22,7 +22,7 @@ function App() {
             <Route path="/watchlist" element={<FavList />} /> 
             <Route path="/search/:category/:query" element={<SearchResultWrapper />} /> 
             <Route path="/movie/:id" element={<MovieDetails />} />
-            <Route path="/tvshow/:id" element={<TvShowDetails />} />
+            <Route path="/tv/:id" element={<TvShowDetails />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
