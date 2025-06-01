@@ -14,7 +14,7 @@ function TvShowDetails() {
 
   const dispatch = useAppDispatch();
   const watchlist = useAppSelector((state) => state.watchList.value);
-  const isLike = tvShow ? watchlist.some(item => item.id === tvShow.id && item.mediaType === 'tv') : false;
+  const isLike = tvShow ? watchlist.some(item => item.id === tvShow.id && item.mediaType === 'tvshow') : false;
 
   const {id} = useParams();
  
@@ -42,9 +42,9 @@ function TvShowDetails() {
   const handleLike = () => {
     if (!tvShow) return;
     if (isLike) {
-      dispatch(remove({ id: tvShow.id, mediaType: 'tv' }));
+      dispatch(remove({ id: tvShow.id, mediaType: 'tvshow' }));
     } else {
-      dispatch(add({ id: tvShow.id, mediaType: 'tv' }));
+      dispatch(add({ id: tvShow.id, mediaType: 'tvshow' }));
     }
   };
 

@@ -11,6 +11,7 @@ export function MovieCard({ movie, mediaType = 'movie' }) {
 
   const handleLike = () => {
     if (isLike) {
+    
       dispatch(remove({ id: movie.id, mediaType }));
     } else {
       dispatch(add({ id: movie.id, mediaType }));
