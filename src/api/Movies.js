@@ -1,5 +1,5 @@
 import axios from "axios";
-import { API_CONFIG } from "./config";
+import { API_CONFIG ,API_KEY} from "./config";
 import { languageMap } from "./config";
 
 
@@ -32,4 +32,25 @@ export async function getMovies(category,language, page ) {
     console.error('API Error:', error);
     throw error;
   }
+}
+
+export async function getMovieDetails(id) {
+    const api = `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}`
+  
+  const result = await axios.get(api);
+  return result;
+}
+
+export async function getMovieRecommendations(id) {
+  const recommendApi = `https://api.themoviedb.org/3/movie/${id}/recommendations?api_key=${API_KEY}`;
+
+  const result = await axios.get(recommendApi);
+  return result;
+}
+
+export async function getMovieReviews(id) {
+    const reviewsApi = `https://api.themoviedb.org/3/movie/${id}/reviews?api_key=${API_KEY}`
+  const result = await axios.get(reviewsApi);
+  return result;
+
 }

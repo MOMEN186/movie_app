@@ -1,7 +1,6 @@
 import { useAppSelector, useAppDispatch } from "../../hooks/useRedux";
 import { add, remove } from "../../features/WatchList/WatchListSlice";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
 
 export function MovieCard({ movie, mediaType = 'movie' }) {
   const watchList = useAppSelector((state) => state.watchList.value);
@@ -10,7 +9,6 @@ export function MovieCard({ movie, mediaType = 'movie' }) {
   const navigate = useNavigate();
 
 
-  useEffect(() => { console.log(watchList) }, [watchList]);
   const handleLike = () => {
     if (isLike) {
       dispatch(remove({ movie: movie, mediaType }));
@@ -18,7 +16,7 @@ export function MovieCard({ movie, mediaType = 'movie' }) {
       dispatch(add({ movie: movie, mediaType }));
     }
   };
-
+  
   const viewDetails = () => {
     navigate(`/${mediaType}/${movie.id}`);
   };

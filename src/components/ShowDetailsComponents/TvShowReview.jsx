@@ -9,7 +9,7 @@ import './Style/TvShowReview.css';
 const TvShowReview = ({ reviews }) => {
   const [index, setIndex] = useState(0);
   const [hovered, setHovered] = useState(false);
-  console.log(reviews)
+
 
   // Group reviews into chunks of 4
   const chunkSize = 4;

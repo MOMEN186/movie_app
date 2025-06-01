@@ -1,51 +1,53 @@
-import {useEffect, useState} from 'react'
-import {useParams} from 'react-router-dom'
-import {API_KEY} from '../api/config'
-import axios from 'axios'
-import StarRating from '../components/ShowDetailsComponents/StarRating'
-import MovieSlider from '../components/ShowDetailsComponents/MovieSlider'
-import MovieReview from '../components/ShowDetailsComponents/MovieReview'
-import { useAppDispatch, useAppSelector } from '../hooks/useRedux'
-import { add, remove } from '../features/WatchList/WatchListSlice'
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import StarRating from "../components/ShowDetailsComponents/StarRating";
+import MovieSlider from "../components/ShowDetailsComponents/MovieSlider";
+import MovieReview from "../components/ShowDetailsComponents/MovieReview";
+import { useAppDispatch, useAppSelector } from "../hooks/useRedux";
+import { add, remove } from "../features/WatchList/WatchListSlice";
+import { getMovieRecommendations, getMovieReviews,getMovieDetails } from "../api/Movies";
 
 function MovieDetails() {
   const [movie, setMovie] = useState(null);
   const [recommendations, setRecommendations] = useState(null);
   const [reviews, setReviews] = useState(null);
-  
+
   const dispatch = useAppDispatch();
   const watchlist = useAppSelector((state) => state.watchList.value);
-  const isLike = movie ? watchlist.some(item => item.id === movie.id && item.mediaType === 'movie') : false;
+  const isLike = movie
+    ? watchlist.some(
+        (item) => item.id === movie.id && item.mediaType === "movie"
+      )
+    : false;
 
-  const params = useParams()
-  const api = `https://api.themoviedb.org/3/movie/${params.id}?api_key=${API_KEY}`
-  const recommendApi = `https://api.themoviedb.org/3/movie/${params.id}/recommendations?api_key=${API_KEY}`
-  const reviewsApi = `https://api.themoviedb.org/3/movie/${params.id}/reviews?api_key=${API_KEY}`
-
-  useEffect(() => {
-    axios.get(api)
-    .then((res) => (setMovie(res.data)))
-    .catch((err) => (console.log(err)))
-  },[params.id])
-
-  useEffect(() =>{
-    axios.get(recommendApi)
-    .then((res) => setRecommendations(res.data))
-    .catch((err) => console.log(err))
-  },[params.id])
+  const params = useParams();
 
   useEffect(() => {
-    axios.get(reviewsApi)
-    .then((res) => setReviews(res.data))
-    .catch((err) => console.log(err))
-  },[params.id])
+    async function fetchmoviesDetails() {
+      const movies = await getMovieDetails(params.id);
+      setMovie(movies.data);
+    }
+    async function getRecommendations() {
+      const recommends = await getMovieRecommendations(params.id);
+      setRecommendations(recommends.data);
+    }
+    async function getReviews() {
+      const review = await getMovieReviews(params.id);
+      setReviews(review.data);
+    }
+
+    fetchmoviesDetails();
+    getRecommendations();
+    getReviews();
+  }, [params]);
+
 
   const handleLike = () => {
     if (!movie) return;
     if (isLike) {
-      dispatch(remove({ id: movie.id, mediaType: 'movie' }));
+      dispatch(remove({ movie: movie, mediaType: "movie" }));
     } else {
-      dispatch(add({ id: movie.id, mediaType: 'movie' }));
+      dispatch(add({movie: movie, mediaType: "movie" }));
     }
   };
 
@@ -53,20 +55,17 @@ function MovieDetails() {
     <div className="container py-4">
       <div className="row mb-5">
         <div className="col-md-3 mb-4 mx-3">
-          <img 
-            src={`https://www.themoviedb.org/t/p/w1280/${movie?.poster_path}`} 
+          <img
+            src={`https://www.themoviedb.org/t/p/w1280/${movie?.poster_path}`}
             className="img-fluid rounded shadow"
             alt={movie?.original_title}
           />
         </div>
-        
+
         <div className="col-md-8 mx-4">
           <div className="d-flex align-items-center justify-content-between mb-3">
             <h2 className="mb-0">{movie?.original_title}</h2>
-            <button 
-              className="btn btn-secondary p-2"
-              onClick={handleLike}
-            >
+            <button className="btn btn-secondary p-2" onClick={handleLike}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -83,24 +82,27 @@ function MovieDetails() {
               </svg>
             </button>
           </div>
-          
+
           <p className="text-muted mb-3">{movie?.release_date}</p>
-          
+
           <div className="mb-4">
-            <StarRating rating={movie?.vote_average} voteCount={movie?.vote_count} />
+            <StarRating
+              rating={movie?.vote_average}
+              voteCount={movie?.vote_count}
+            />
           </div>
-          
+
           <div className="mb-4">
             <p className="lead">{movie?.overview}</p>
           </div>
-          
+
           <div className="mb-4">
             <h5 className="mb-2">Genres</h5>
             <div className="d-flex flex-wrap gap-2">
               {movie?.genres?.map((genre) => (
-                <button 
-                  key={genre.id} 
-                  type="button" 
+                <button
+                  key={genre.id}
+                  type="button"
                   className="btn btn-warning"
                 >
                   {genre.name}
@@ -108,7 +110,7 @@ function MovieDetails() {
               ))}
             </div>
           </div>
-          
+
           <div className="mb-4">
             <div className="d-flex gap-4">
               <div>
@@ -120,7 +122,7 @@ function MovieDetails() {
                 <span>
                   {movie?.spoken_languages?.map((language, index) => (
                     <span key={language.iso_639_1}>
-                      {index > 0 && ', '}
+                      {index > 0 && ", "}
                       {language.english_name}
                     </span>
                   ))}
@@ -128,44 +130,49 @@ function MovieDetails() {
               </div>
             </div>
           </div>
-          
+
           <div className="mt-4">
             <div className="d-flex flex-wrap gap-3 align-items-center">
-              {movie?.production_companies?.map((company) => (
-                company.logo_path && (
-                  <img 
-                    key={company.id} 
-                    src={`https://www.themoviedb.org/t/p/w200/${company.logo_path}`} 
-                    className="img-fluid"
-                    style={{width:"auto", height:"2.5em", maxWidth:"100px"}}
-                    alt={company.name}
-                  />
-                )
-              ))}
+              {movie?.production_companies?.map(
+                (company) =>
+                  company.logo_path && (
+                    <img
+                      key={company.id}
+                      src={`https://www.themoviedb.org/t/p/w200/${company.logo_path}`}
+                      className="img-fluid"
+                      style={{
+                        width: "auto",
+                        height: "2.5em",
+                        maxWidth: "100px",
+                      }}
+                      alt={company.name}
+                    />
+                  )
+              )}
             </div>
           </div>
         </div>
       </div>
-      <hr/>
-      {reviews?.results.length === 0 ? (
+      <hr />
+      {reviews?.length === 0 ? (
         <div className="mb-1 p-3">
           <h4>There are no reviews yet..</h4>
-          <hr/>
+          <hr />
         </div>
       ) : (
         <div>
-          <div className="row mb-4" style={{marginLeft:"1em"}}>
-            <MovieReview reviews={reviews}/>
+          <div className="row mb-4" style={{ marginLeft: "1em" }}>
+            <MovieReview reviews={reviews} />
           </div>
-          <hr/>
+          <hr />
         </div>
       )}
-      
-      <div className="row" style={{marginLeft:"1em"}}>
-        <MovieSlider recommendations={recommendations}/>
+
+      <div className="row" style={{ marginLeft: "1em" }}>
+        <MovieSlider recommendations={recommendations} />
       </div>
     </div>
-  )
+  );
 }
 
-export default MovieDetails
+export default MovieDetails;
