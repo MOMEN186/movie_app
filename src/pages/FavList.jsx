@@ -30,7 +30,6 @@ function FavList() {
 
   return (
     <div className="container">
-      <NavBar />
       <h2 className="my-4">My Watchlist</h2>
       {loading ? (
         <div className="text-center">
