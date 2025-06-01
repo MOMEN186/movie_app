@@ -45,9 +45,9 @@ function MovieDetails() {
   const handleLike = () => {
     if (!movie) return;
     if (isLike) {
-      dispatch(remove({ movie: movie, mediaType: "movie" }));
+      dispatch(remove({ id: movie.id, mediaType: "movie" }));
     } else {
-      dispatch(add({movie: movie, mediaType: "movie" }));
+      dispatch(add({id: movie.id, mediaType: "movie" }));
     }
   };
 
