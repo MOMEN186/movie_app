@@ -33,9 +33,7 @@ export const SearchResult = () => {
   }, [searchResult, totalPages]);
   return (
     <div>
-      <div>
-        <NavBar />
-      </div>
+     
       <h3 className="justify-content-start mb-4">
        
         Search Results for : {query}

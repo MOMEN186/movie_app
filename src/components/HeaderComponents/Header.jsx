@@ -54,7 +54,7 @@ export default function Header() {
           </NavDropdown>
         </ul>
       </div>
-     
+     <NavBar/>
     </div>
   );
 }
