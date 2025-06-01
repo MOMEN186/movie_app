@@ -54,3 +54,23 @@ export async function getMovieReviews(id) {
   return result;
 
 }
+
+export async function getTvShowDetails(id) {
+  const api = `https://api.themoviedb.org/3/tv/${id}?api_key=${API_KEY}`;
+  const result = await axios.get(api);
+  return result;
+}
+
+export async function getTvShowRecommendations(id) {
+  const recommendApi = `https://api.themoviedb.org/3/tv/${id}/recommendations?api_key=${API_KEY}`;
+  const result = await axios.get(recommendApi);
+  return result;
+}
+
+export async function getTvShowReviews(id) {
+    const reviewsApi = `https://api.themoviedb.org/3/tv/${id}/reviews?api_key=${API_KEY}`
+  const result = await axios.get(reviewsApi);
+  return result;
+  
+}
+
