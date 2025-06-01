@@ -1,0 +1,23 @@
+.slider-container {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.carousel-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  cursor: pointer;
+}
+
+.carousel-arrow-left {
+  left: 1em;
+}
+
+.carousel-arrow-right {
+  right: 1em;
+}
+
+/* You can adjust padding/margins/fonts here if needed */
