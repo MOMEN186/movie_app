@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import StarRating from "../components/ShowDetailsComponents/StarRating";
-import MovieSlider from "../components/ShowDetailsComponents/MovieSlider";
-import MovieReview from "../components/ShowDetailsComponents/MovieReview";
 import { useAppDispatch, useAppSelector } from "../hooks/useRedux";
 import { add, remove } from "../features/WatchList/WatchListSlice";
 import { getMovieRecommendations, getMovieReviews,getMovieDetails } from "../api/Movies";
+import MediaSlider from "../components/ShowDetailsComponents/MediaSlider";
+import ReviewCarousel from "../components/ShowDetailsComponents/ReviewCarousel";
 
 function MovieDetails() {
   const [movie, setMovie] = useState(null);
@@ -162,14 +162,14 @@ function MovieDetails() {
       ) : (
         <div>
           <div className="row mb-4" style={{ marginLeft: "1em" }}>
-            <MovieReview reviews={reviews} />
+            <ReviewCarousel reviews={reviews} />
           </div>
           <hr />
         </div>
       )}
 
       <div className="row" style={{ marginLeft: "1em" }}>
-        <MovieSlider recommendations={recommendations} />
+        <MediaSlider recommendations={recommendations} />
       </div>
     </div>
   );

@@ -12,8 +12,8 @@ export const MovieResult = (props) => {
           <div
             style={{ display: "flex", justifyContent: "center", width: "100%" }}
           >
-            {" "}
-            <Spinners />{" "}
+           
+            <Spinners />
           </div>
         ) : (
           shows?.map((show) => (

@@ -3,10 +3,10 @@ import { useParams } from "react-router-dom";
 import { API_KEY } from "../api/config";
 import axios from "axios";
 import StarRating from "../components/ShowDetailsComponents/StarRating";
-import TvShowSlider from "../components/ShowDetailsComponents/TvShowSlider";
-import TvShowReview from '../components/ShowDetailsComponents/TvShowReview';
 import { useAppDispatch, useAppSelector } from '../hooks/useRedux';
 import { add, remove } from '../features/WatchList/WatchListSlice';
+import ReviewCarousel from "../components/ShowDetailsComponents/ReviewCarousel";
+import MediaSlider from "../components/ShowDetailsComponents/MediaSlider";
 
 function TvShowDetails() {
   const [tvShow, setTvShow] = useState(null);
@@ -164,14 +164,14 @@ function TvShowDetails() {
       ) : (
         <div>
           <div className="row mb-4" style={{marginLeft:"1em"}}>
-            <TvShowReview reviews={reviews}/>
+            <ReviewCarousel reviews={reviews}/>
           </div>
           <hr/>
         </div>
       )}
       
       <div className="row" style={{marginLeft:"1em"}}>
-        <TvShowSlider recommendations={recommendations}/>
+        <MediaSlider recommendations={recommendations}/>
       </div>
     </div>
   );

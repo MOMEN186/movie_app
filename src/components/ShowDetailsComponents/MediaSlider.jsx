@@ -3,18 +3,18 @@ import { Link } from 'react-router-dom';
 import { Carousel } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
-import './Style/MovieSlider.css'
+import './Style/MediaSlider.css';
 
-const MovieSlider = ({ recommendations }) => {
+const MediaSlider = ({ recommendations, mediaType, title }) => {
   const [index, setIndex] = useState(0);
   const [hovered, setHovered] = useState(false);
 
-  // Group films into chunks of 6
+  // Group items into chunks of 6
   const chunkSize = 6;
-  const filmGroups = [];
+  const itemGroups = [];
   if (recommendations?.results) {
     for (let i = 0; i < recommendations.results.length; i += chunkSize) {
-      filmGroups.push(recommendations.results.slice(i, i + chunkSize));
+      itemGroups.push(recommendations.results.slice(i, i + chunkSize));
     }
   }
 
@@ -22,14 +22,14 @@ const MovieSlider = ({ recommendations }) => {
     setIndex(selectedIndex);
   };
 
-  // Custom arrow components
+  // Custom arrows (appear on hover)
   const CustomPrevArrow = ({ onClick }) => (
-    <div 
+    <div
       className="carousel-arrow carousel-arrow-left"
       onClick={onClick}
       style={{
         opacity: hovered ? 1 : 0,
-        transition: 'opacity 0.3s ease'
+        transition: 'opacity 0.3s ease',
       }}
     >
       <FaChevronLeft size={24} />
@@ -37,12 +37,12 @@ const MovieSlider = ({ recommendations }) => {
   );
 
   const CustomNextArrow = ({ onClick }) => (
-    <div 
+    <div
       className="carousel-arrow carousel-arrow-right"
       onClick={onClick}
       style={{
         opacity: hovered ? 1 : 0,
-        transition: 'opacity 0.3s ease'
+        transition: 'opacity 0.3s ease',
       }}
     >
       <FaChevronRight size={24} />
@@ -50,34 +50,43 @@ const MovieSlider = ({ recommendations }) => {
   );
 
   return (
-    <div 
-      className="slider-container" 
+    <div
+      className="slider-container"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
         position: 'relative',
         padding: '3em',
-        margin: '.5em 0'
+        margin: '.5em 0',
       }}
     >
-      <h4 className="mb-5">Movies You May Like</h4>
-      <CustomPrevArrow onClick={() => handleSelect(index - 1 < 0 ? filmGroups.length - 1 : index - 1)} />
-      
-      <Carousel 
-        activeIndex={index} 
-        onSelect={handleSelect} 
+      <h4 className="mb-4">{title}</h4>
+
+      <CustomPrevArrow
+        onClick={() =>
+          handleSelect(index - 1 < 0 ? itemGroups.length - 1 : index - 1)
+        }
+      />
+
+      <Carousel
+        activeIndex={index}
+        onSelect={handleSelect}
         indicators={false}
         controls={false}
         interval={null}
       >
-        {filmGroups.map((group, groupIndex) => (
+        {itemGroups.map((group, groupIndex) => (
           <Carousel.Item key={groupIndex}>
             <div className="row" style={{ margin: '0 -0.5em' }}>
-              {group.map((result) => (
-                <div className="col-md-2 col-sm-4 col-6" key={result.id} style={{ padding: '0 0.5em' }}>
-                  <Link to={`/movie/${result.id}`}>
+              {group.map((item) => (
+                <div
+                  className="col-md-2 col-sm-4 col-6"
+                  key={item.id}
+                  style={{ padding: '0 0.5em' }}
+                >
+                  <Link to={`/${mediaType}/${item.id}`}>
                     <img
-                      src={`https://www.themoviedb.org/t/p/w1280/${result.poster_path}`}
+                      src={`https://www.themoviedb.org/t/p/w1280/${item.poster_path}`}
                       className="img-fluid"
                       style={{
                         width: '100%',
@@ -85,16 +94,27 @@ const MovieSlider = ({ recommendations }) => {
                         borderRadius: '8px',
                         marginBottom: '0.5em',
                         boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
-                        transition: 'transform 0.3s ease'
+                        transition: 'transform 0.3s ease',
                       }}
-                      onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
-                      onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
-                      alt={result.title}
+                      onMouseEnter={(e) =>
+                        (e.currentTarget.style.transform = 'scale(1.05)')
+                      }
+                      onMouseLeave={(e) =>
+                        (e.currentTarget.style.transform = 'scale(1)')
+                      }
+                      alt={item.title || item.name}
                     />
                   </Link>
                   <div style={{ padding: '0 0.5em' }}>
-                    <b className="d-block text-truncate">{result.title}</b>
-                    <small className="text-muted">{result.release_date?.substring(0, 4)}</small>
+                    <b className="d-block text-truncate">
+                      {item.title || item.name}
+                    </b>
+                    <small className="text-muted">
+                      {(item.release_date || item.first_air_date)?.substring(
+                        0,
+                        4
+                      )}
+                    </small>
                   </div>
                 </div>
               ))}
@@ -103,11 +123,11 @@ const MovieSlider = ({ recommendations }) => {
         ))}
       </Carousel>
 
-      <CustomNextArrow onClick={() => handleSelect((index + 1) % filmGroups.length)} />
-
-      
+      <CustomNextArrow
+        onClick={() => handleSelect((index + 1) % itemGroups.length)}
+      />
     </div>
   );
 };
 
-export default MovieSlider;
+export default MediaSlider;
