@@ -17,7 +17,7 @@ export const SearchBar = (props) => {
   }
   return (
     <>
-      <div className="input-group mt-3 px-5">
+      <div className="input-group mt-3 px-3">
         <input
           type="text"
           className="form-control rounded-3  border-warning"
