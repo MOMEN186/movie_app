@@ -26,7 +26,7 @@ export default function Home({ category }) {
   }, [category, page, language]);
 
   return (
-    <div>
+    <div className="container">
        
           
       <div>
