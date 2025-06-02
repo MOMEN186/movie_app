@@ -15,7 +15,7 @@ export default function Header() {
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", rowGap: "25px" }}>
+      <div style={{ display: "flex", flexDirection: "column", rowGap: "25px" }}>
       <div>
         <ul className="nav  bg-warning ">
           <li className="nav-item">

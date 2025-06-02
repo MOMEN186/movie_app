@@ -16,7 +16,7 @@ export default function NavBar() {
   }, [location]);
 
   return (
-    <div className="mb-4">
+    <div className="my-4">
       <nav className="nav nav-pills nav-justified">
         <Link
           className={`nav-link border border-warning mx-2 ${category === "movie" ? "active bg-warning" : "text-warning"}`}

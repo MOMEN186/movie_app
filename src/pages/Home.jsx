@@ -4,6 +4,7 @@ import Pagination from "../components/HomeComponents/Pagination";
 import NavBar from "../components/HeaderComponents/NavBar";
 import { useAppSelector } from "../hooks/useRedux";
 import { getMovies } from "../api/Movies";
+import Header from "../components/HeaderComponents/Header";
 
 export default function Home({ category }) {
   const [movies, setMovie] = useState();
@@ -27,6 +28,8 @@ export default function Home({ category }) {
 
   return (
     <div>
+       
+          
       <div>
            <NavBar/>
       </div>

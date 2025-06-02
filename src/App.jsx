@@ -15,7 +15,8 @@ function App() {
     <Provider store={store}>
       <div>
         <Header />
-        <div className="container my-3 d-flex">
+        <div className="container my-3">
+         
           <Routes>          
             <Route path="/tvshow" element={<Home category="tv" />} />
             <Route path="/" element={<Home category="movie" />} />   
@@ -26,6 +27,7 @@ function App() {
           </Routes>
         </div>
       </div>
+   
     </Provider>
   );
 }
