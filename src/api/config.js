@@ -13,7 +13,10 @@ export const API_CONFIG = {
       with_original_language : "ar" ,
       region : "EG" ,
       "primary_release_date.gte": "2020-01-01",
-      "primary_release_date.lte": "2025-12-31"
+      "primary_release_date.lte": "2025-12-31",
+      with_genres: "16|99|10762",
+      // without_genres: "99"
+       
 };
 const axiosInstance = axios.create({
     baseURL: import.meta.env.VITE_APP_BASE_URL,

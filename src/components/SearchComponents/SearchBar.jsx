@@ -1,30 +1,41 @@
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+// No longer needs useNavigate as it won't navigate directly
 
 export const SearchBar = (props) => {
-  const { category } = props;
+  // We no longer need 'category' directly in SearchBar for navigation
+  // const { category } = props;
+  const { onSearch } = props; // Receive the onSearch function from NavBar
   const [input, setInput] = useState("");
 
-  const navigate = useNavigate();
-
   function handleSearch() {
-    console.log("searching", input);
+    // Call the onSearch function passed from the parent (NavBar)
+    // This function will eventually reach the Home component
     if (input.trim() === "") {
-      return; // Do not navigate if input is empty
+      onSearch(""); // Pass empty string to reset search and show all content
+      return;
     }
-    navigate(`/search/${category}/${input}`);
+    onSearch(input);
   }
+
+  // Allow search on 'Enter' key press
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
   return (
     <>
       <div className="input-group mt-3 px-3">
         <input
           type="text"
-          className="form-control rounded-3  border-warning"
+          className="form-control rounded-3 border-warning"
           placeholder="Search"
           id="search_movie"
           value={input}
           onChange={(e) => setInput(e.target.value)}
+          onKeyPress={handleKeyPress} // Add key press handler
         />
         <button
           className="btn btn-warning mx-3 rounded-3"

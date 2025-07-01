@@ -1,12 +1,14 @@
 import { useAppSelector, useAppDispatch } from "../../hooks/useRedux";
 import { add, remove } from "../../features/WatchList/WatchListSlice";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import placeholderImage from '../../assets/placeholder.jpg';
 
-export function MovieCard({ movie, mediaType = 'movie' }) {
+export function MovieCard({ movie, mediaType = 'movie', currentPage }) {
   const watchList = useAppSelector((state) => state.watchList.value);
   const dispatch = useAppDispatch();
   const isLike = watchList.some(item => item.id === movie.id && item.mediaType === mediaType);
   const navigate = useNavigate();
+  const location = useLocation(); // استخدم useLocation
 
   const handleLike = () => {
     if (isLike) {
@@ -17,10 +19,12 @@ export function MovieCard({ movie, mediaType = 'movie' }) {
     }
   };
   
-  const viewDetails = () => {
-    navigate(`/${mediaType}/${movie.id}`);
-  };
-
+  const viewDetails = () => { 
+    // 👈 هنا التعديل: لن نعتمد على location.state لـ currentPage
+    // بدلاً من ذلك، ستعتمد الـ Home component على الـ URL parameters
+    navigate(`/${mediaType}/${movie.id}`); // simply navigate without state if not needed elsewhere
+  }; 
+  
   return (
     <div className="card h-100">
       <div className="position-relative" style={{ height: "300px" }}>
@@ -29,8 +33,9 @@ export function MovieCard({ movie, mediaType = 'movie' }) {
             {mediaType === 'movie' ? 'Movie' : 'TV Show'}
           </span>
         </h5>
-        <img
-          src={`https://www.themoviedb.org/t/p/w1280/${movie?.backdrop_path}`}
+        {movie?.poster_path ?(
+          <img
+          src={`https://www.themoviedb.org/t/p/w1280/${movie?.poster_path}`}
           className="card-img-top img-fluid"
           alt="Movie Poster"
           style={{
@@ -40,6 +45,21 @@ export function MovieCard({ movie, mediaType = 'movie' }) {
             background: "#eee"
           }}
         />
+        ):(
+          <img 
+          src={placeholderImage} 
+          className="card-img-top img-fluid"
+          alt="No Poster Available"
+          style={{
+            height: "300px",
+            objectFit: "cover",
+            width: "100%",
+            background: "#eee"
+          }}
+          />
+          
+        )}
+        
       </div>
 
       <div className="card-body text-dark">        

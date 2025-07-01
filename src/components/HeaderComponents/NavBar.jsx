@@ -1,8 +1,10 @@
 import { Link, useLocation } from "react-router-dom";
-import {SearchBar} from "../SearchComponents/SearchBar";
+import {SearchBar} from "../SearchComponents/SearchBar"; // Keep this import
 import { useState, useEffect } from "react";
 
-export default function NavBar() {
+export default function NavBar(props) { // Accept props
+  const { onSearch } = props; // Receive onSearch from Home component
+
   const [category, setCategory] = useState("movie");
   const location = useLocation();
 
@@ -26,15 +28,16 @@ export default function NavBar() {
         >
           Movies
         </Link>
-        <Link 
+        <Link
           className={`nav-link border border-warning ${category === "tv" ? "active bg-warning" : "text-warning"}`}
-          to="/tvshow" 
+          to="/tvshow"
           onClick={() => setCategory("tv")}
         >
           Tv-Shows
         </Link>
       </nav>
-      <SearchBar category={category} />
+      {/* Pass the onSearch function received from Home to the SearchBar */}
+      <SearchBar onSearch={onSearch} category={category} />
     </div>
   );
 }

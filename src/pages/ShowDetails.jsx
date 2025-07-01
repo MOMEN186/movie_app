@@ -11,6 +11,8 @@ import MediaSlider from "../components/ShowDetailsComponents/MediaSlider";
 
 import { getMovieDetails } from "../api/Movies";
 
+import placeholderImage from '../assets/placeholder.jpg'
+
 function ShowDetails() {
   const { category, id } = useParams();
 
@@ -71,6 +73,7 @@ function ShowDetails() {
           category,
         });
         // TMDB’s recommendations endpoint returns { results: […] }
+        console.log(category)
         setRecommendations(res.data.results || []);
       } catch (err) {
         console.error("Error fetching recommendations:", err);
@@ -107,11 +110,19 @@ function ShowDetails() {
         <>
           <div className="row mb-4">
             <div className="col-md-3 mb-4 mx-3">
-              <img
+              {item.poster_path ? (
+                <img
                 src={`https://www.themoviedb.org/t/p/w1280/${item.poster_path}`}
                 className="img-fluid rounded shadow"
                 alt={titleText}
               />
+              ):(
+                <img src={placeholderImage}
+                className="img-fluid rounded shadow"
+                alt={titleText}
+                />
+              )}
+              
             </div>
 
             <div className="col-md-8 mx-4">

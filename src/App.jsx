@@ -9,14 +9,16 @@ import { store } from './app/store';
 import NotFound from "./pages/NotFound";
 import ShowDetails from "./pages/ShowDetails";
 import SearchWrapper from "./components/SearchComponents/SearchWrapper";
+import { TvShowsProvider } from './context/TvShowsContext';
 
 function App() {
   return (
+    
     <Provider store={store}>
       <div>
         <Header />
         <div className="container my-3">
-         
+        <TvShowsProvider>
           <Routes>          
             <Route path="/tvshow" element={<Home category="tv" />} />
             <Route path="/" element={<Home category="movie" />} />   
@@ -25,6 +27,7 @@ function App() {
            <Route path="/:category/:id" element={<ShowDetails />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
+        </TvShowsProvider>
         </div>
       </div>
    

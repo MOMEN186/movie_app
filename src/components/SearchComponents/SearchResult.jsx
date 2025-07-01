@@ -7,18 +7,15 @@ import NavBar from "../HeaderComponents/NavBar";
 
 export const SearchResult = ({category,query}) => {
   const [searchResult, setSearchResult] = useState([]);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(1); // 👈 هذه هي النقطة: دائما تبدأ من 1
   const [isLoading, setLoading] = useState();
   const [totalPages, setTotalPages] = useState(1);
   const language = useAppSelector((state) => state.language.value);
 
-
-  console.log(category, query);
   useEffect(() => {
     setLoading(true);
     getSearchResult(query, page, category, language)
       .then((res) => {
-        console.log(res)
         setSearchResult(res.data.results);
         setTotalPages(res.data.total_pages);
       })
@@ -33,14 +30,12 @@ export const SearchResult = ({category,query}) => {
     console.log("total pages", totalPages);
   }, [searchResult, totalPages]);
 
-
   return (
     <div>
       <div>
         <NavBar />
       </div>
       <h3 className="justify-content-start mb-4">
-       
         Search Results for : {query}
       </h3>
       <MovieResult
