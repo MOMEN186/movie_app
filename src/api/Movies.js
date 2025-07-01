@@ -1,8 +1,8 @@
-// src/api/Movies.js (أو اسم الملف اللي عندك)
+
 
 import axios from "axios";
-import { API_CONFIG, API_KEY } from "./config"; // تأكدي إن المسار ده صح عندكِ
-import { languageMap } from "./config"; // تأكدي إن المسار ده صح عندكِ
+import { API_CONFIG, API_KEY } from "./config"; 
+import { languageMap } from "./config"; 
 
 function getEndpoint(category) {
   if (category === "movie")
@@ -89,22 +89,22 @@ export async function getMovieDetails({ id, category, query, language }) {
 
   const MIN_RECOMMENDATIONS_COUNT = 9;
 
-  // قوائم الأنواع للأفلام
-  const desiredMovieRecommendationGenres = [16, 99, 10751]; // Animation, Documentary, Family
+  
+  const desiredMovieRecommendationGenres = [16, 99, 10751]; 
   const excludedMovieRecommendationGenres = [18, 28, 35, 80, 9648, 10749, 53, 878, 12, 14, 27, 36, 37, 10752];
 
-  // IDs محظورة إضافية
+ 
   const commonBlacklistedIds = [611359, 198556, 14275];
 
   if (query === "recommendations") {
     let finalRecommendations = [];
     const seenIds = new Set([id]); 
 
-    // ======== حالة المسلسلات (TV) ========
-    if (category === "tvshow") { // تأكدي إن دي "tv" مش "tvshow"
+    
+    if (category === "tvshow") { 
       const currentIdNum = parseInt(id)
       console.log(`[getMovieDetails] TV category detected. Fetching recommendations for TV show ID: ${id}`);
-      let recommendationsEndpoint = `https://api.themoviedb.org/3/tv/${id}/recommendations`; // **التعديل الرئيسي هنا**
+      let recommendationsEndpoint = `https://api.themoviedb.org/3/tv/${id}/recommendations`; 
       try {
         const recommendationsRes = await axios.get(
           recommendationsEndpoint,
@@ -173,7 +173,7 @@ export async function getMovieDetails({ id, category, query, language }) {
       } catch (e) {
         console.error("[getMovieDetails - TV] Error fetching TV recommendations:", e);
         console.log("[getMovieDetails - TV] Falling back to additional TV content for recommendations due to error.");
-        // الكود هنا مشابه للجزء اللي تحت للأفلام في حالة الفشل
+        
         finalRecommendations = [];
         try {
             let page = 1;
@@ -213,7 +213,7 @@ export async function getMovieDetails({ id, category, query, language }) {
 
 
 
-    // ======== حالة الأفلام (Movies) ========
+   
     if (category === "movie") {
       const currentIdNum = parseInt(id);
       console.log(`[getMovieDetails] Movie category detected. Fetching recommendations for movie ID: ${id}`); 
@@ -325,7 +325,7 @@ export async function getMovieDetails({ id, category, query, language }) {
     }
   }
 
-  // ======== جلب التفاصيل الأساسية ========
+  
   if (query?.length > 0) {
     endpoint += `/${query}`;
   }

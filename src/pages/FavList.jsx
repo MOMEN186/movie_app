@@ -1,7 +1,6 @@
 import  { useEffect, useState } from 'react';
 import { useAppSelector } from '../hooks/useRedux';
 import { MovieCard } from '../components/HomeComponents/MovieCard';
-import NavBar from '../components/HeaderComponents/NavBar';
 import { getLikedMovies } from '../api/Movies';
 
 function FavList() {

@@ -4,13 +4,13 @@ import { Carousel } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import StarRating from './StarRating';
-import './Style/ReviweCarousel.css'; // <-- New, shared CSS
+import './Style/ReviweCarousel.css'; 
 
 const ReviewCarousel = ({ reviews, title }) => {
   const [index, setIndex] = useState(0);
   const [hovered, setHovered] = useState(false);
   console.log(reviews)
-  // Group reviews into chunks of 4
+
   const chunkSize = 4;
   const reviewGroups = [];
   if (reviews) {
@@ -23,7 +23,7 @@ const ReviewCarousel = ({ reviews, title }) => {
     setIndex(selectedIndex);
   };
 
-  // Custom arrow components (show on hover)
+
   const CustomPrevArrow = ({ onClick }) => (
     <div
       className="carousel-arrow carousel-arrow-left"
@@ -88,7 +88,7 @@ const ReviewCarousel = ({ reviews, title }) => {
                   style={{ padding: '0 0.5em' }}
                 >
                   <div className="review-card">
-                    {/* Avatar Section */}
+                    
                     <div className="review-avatar">
                       {result.author_details.avatar_path ? (
                         <img
@@ -104,7 +104,7 @@ const ReviewCarousel = ({ reviews, title }) => {
                       </span>
                     </div>
 
-                    {/* Rating Section */}
+                    
                     <div className="review-rating">
                       <StarRating rating={result.author_details.rating} />
                       <span className="review-date">
@@ -112,7 +112,7 @@ const ReviewCarousel = ({ reviews, title }) => {
                       </span>
                     </div>
 
-                    {/* Content Section */}
+                    
                     <div className="review-content">
                       <p>
                         {result.content.length > 150

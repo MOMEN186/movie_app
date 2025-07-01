@@ -39,7 +39,7 @@ function Pagination({ current, setCurrent, pages }) {
         className="pagination justify-content-center flex-nowrap overflow-auto"
         style={{ width: "600px" }}
       >
-        {/* Prev button */}
+        
         <li
           className={
             "page-item bg-warning" + (current <= 1 ? " disabled" : "")
@@ -54,7 +54,7 @@ function Pagination({ current, setCurrent, pages }) {
           <span className="page-link text-warning">Prev</span>
         </li>
 
-        {/* Page-number buttons */}
+        
         {pageNumbers.map((pageNum) => (
           <li
             key={pageNum}
@@ -71,7 +71,7 @@ function Pagination({ current, setCurrent, pages }) {
           </li>
         ))}
 
-        {/* Next button */}
+        
         <li
           className={
             "page-item bg-warning" + (current >= pages ? " disabled" : "")

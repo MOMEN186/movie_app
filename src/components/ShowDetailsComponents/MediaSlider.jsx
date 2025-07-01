@@ -9,7 +9,7 @@ const MediaSlider = ({ recommendations, mediaType, title }) => {
   const [index, setIndex] = useState(0);
   const [hovered, setHovered] = useState(false);
 
-  // Group items into chunks of 6
+
   const chunkSize = 6;
   const itemGroups = [];
   if (recommendations) {

@@ -8,7 +8,7 @@ export function MovieCard({ movie, mediaType = 'movie', currentPage }) {
   const dispatch = useAppDispatch();
   const isLike = watchList.some(item => item.id === movie.id && item.mediaType === mediaType);
   const navigate = useNavigate();
-  const location = useLocation(); // استخدم useLocation
+  const location = useLocation(); 
 
   const handleLike = () => {
     if (isLike) {
@@ -20,9 +20,8 @@ export function MovieCard({ movie, mediaType = 'movie', currentPage }) {
   };
   
   const viewDetails = () => { 
-    // 👈 هنا التعديل: لن نعتمد على location.state لـ currentPage
-    // بدلاً من ذلك، ستعتمد الـ Home component على الـ URL parameters
-    navigate(`/${mediaType}/${movie.id}`); // simply navigate without state if not needed elsewhere
+    
+    navigate(`/${mediaType}/${movie.id}`); 
   }; 
   
   return (

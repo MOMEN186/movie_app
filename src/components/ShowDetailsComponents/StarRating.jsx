@@ -1,4 +1,4 @@
-
+//
 const StarRating = ({ rating, voteCount }) => {
   
   const stars = Math.min(5, (rating / 2)); 

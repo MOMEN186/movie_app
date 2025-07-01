@@ -15,7 +15,7 @@ export const API_CONFIG = {
       "primary_release_date.gte": "2020-01-01",
       "primary_release_date.lte": "2025-12-31",
       with_genres: "16|99|10762",
-      // without_genres: "99"
+      
        
 };
 const axiosInstance = axios.create({

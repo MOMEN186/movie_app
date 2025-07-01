@@ -1,4 +1,4 @@
-// src/pages/ShowDetails.jsx
+
 
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -30,7 +30,7 @@ function ShowDetails() {
       )
     : false;
 
-  // Common labels:
+  
   const titleText = category === "movie" ? item?.title : item?.name;
   const dateText =
     category === "movie"
@@ -51,7 +51,7 @@ function ShowDetails() {
 
     async function fetchDetails() {
       try {
-        // 1) Fetch main details
+        
         const res = await getMovieDetails({
           id,
           query: "",
@@ -72,7 +72,7 @@ function ShowDetails() {
           language,
           category,
         });
-        // TMDB’s recommendations endpoint returns { results: […] }
+        
         console.log(category)
         setRecommendations(res.data.results || []);
       } catch (err) {
@@ -88,7 +88,7 @@ function ShowDetails() {
           language,
           category,
         });
-        // TMDB’s reviews endpoint returns { results: […] }
+        
         setReviews(res.data.results || []);
       } catch (err) {
         console.error("Error fetching reviews:", err);
@@ -243,7 +243,7 @@ function ShowDetails() {
 
           <hr />
 
-          {/* Reviews Section */}
+          
           {reviews.length === 0 ? (
             <div className="mb-4 p-3">
               <h4>There are no reviews yet.</h4>
@@ -256,7 +256,7 @@ function ShowDetails() {
 
           <hr />
 
-          {/* Recommendations Slider */}
+          
           <div className="row" style={{ marginLeft: "1em" }}>
             <MediaSlider
               recommendations={recommendations}

@@ -1,5 +1,5 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
-import { getMovies } from '../api/Movies'; // تأكدي من المسار الصحيح لدالة getMovies
+import { getMovies } from '../api/Movies'; 
 
 const TvShowsContext = createContext();
 
@@ -8,8 +8,8 @@ export const TvShowsProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // هنا ممكن نفلتر الأنواع اللي عايزاها بالظبط تاني لو API_CONFIG مش كافي
-  const desiredTvRecommendationGenres = [16, 99, 10762]; // Animation, Documentary, Kids
+ 
+  const desiredTvRecommendationGenres = [16, 99, 10762]; 
   const excludedGenres = [18, 28, 35, 80, 9648, 10749, 53, 878, 12, 14, 27, 36, 37, 10752];
 
   const fetchAndFilterTvShows = async () => {
@@ -19,10 +19,10 @@ export const TvShowsProvider = ({ children }) => {
       let page = 1;
       let allFilteredShows = [];
       const seenIds = new Set();
-      const MAX_PAGES_TO_FETCH = 5; // ممكن تزوديها لو عايزة قاعدة بيانات أكبر للمسلسلات
+      const MAX_PAGES_TO_FETCH = 5; 
 
-      while (page <= MAX_PAGES_TO_FETCH && allFilteredShows.length < 500) { // Limit total items for performance
-        const response = await getMovies("tv", "Arabic", page); // استخدمي اللغة المناسبة هنا
+      while (page <= MAX_PAGES_TO_FETCH && allFilteredShows.length < 500) { 
+        const response = await getMovies("tv", "Arabic", page); 
         const rawShows = response.data.results || [];
 
         const filteredBatch = rawShows.filter(item => {
@@ -42,7 +42,7 @@ export const TvShowsProvider = ({ children }) => {
           seenIds.add(item.id);
         });
 
-        if (rawShows.length === 0) break; // لو مفيش نتائج في الصفحة، وقف جلب
+        if (rawShows.length === 0) break; 
         page++;
       }
       setTvShows(allFilteredShows);
@@ -56,7 +56,7 @@ export const TvShowsProvider = ({ children }) => {
 
   useEffect(() => {
     fetchAndFilterTvShows();
-  }, []); // [] عشان تتنفذ مرة واحدة لما المكون يتعمل له mount
+  }, []); 
 
   return (
     <TvShowsContext.Provider value={{ tvShows, isLoading, error, refreshTvShows: fetchAndFilterTvShows }}>
